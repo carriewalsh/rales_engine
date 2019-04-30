@@ -6,5 +6,4 @@ class Invoice < ApplicationRecord
   has_many :transactions
 
   validates_presence_of :status
-  validates_numericality_of :status
 end
