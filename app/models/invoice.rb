@@ -4,4 +4,7 @@ class Invoice < ApplicationRecord
   has_many :invoice_items
   has_many :items, through: :invoice_items
   has_many :transactions
+
+  validates_presence_of :status
+  validates_numericality_of :status
 end
