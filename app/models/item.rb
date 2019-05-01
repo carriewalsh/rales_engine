@@ -4,7 +4,11 @@ class Item < ApplicationRecord
   belongs_to :merchant
 
   validates_presence_of :name,
-                        :description, 
+                        :description,
                         :unit_price
   validates_numericality_of :unit_price
+
+  def self.top_by_revenue(count)
+    joins(:invoice_items).select("items.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").group(:id).order("revenue DESC").limit(count)
+  end
 end

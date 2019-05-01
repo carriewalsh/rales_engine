@@ -153,11 +153,10 @@ RSpec.describe Item, type: :model do
 
     describe "self.top_by_revenue()" do
       it "should return a chosen number of items ordered by their total revenue" do
-        expect(Item.top_by_revenue(2).first.name).to eq(@item1.name)
-        expect(Item.top_by_revenue(2).first.revenue).to eq(4565)
+        expect(Item.top_by_revenue(2).first.name).to eq(@item5.name)
+        expect(Item.top_by_revenue(2).first.revenue).to eq(2720000)
         expect(Item.top_by_revenue(2).to_a.count).to eq(2)
         expect(Item.top_by_revenue(4).to_a.count).to eq(4)
-
       end
     end
   end
