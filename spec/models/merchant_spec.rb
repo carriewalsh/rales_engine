@@ -192,5 +192,11 @@ RSpec.describe Merchant, type: :model do
         expect(@merch1.total_revenue).to eq(5071000)
       end
     end
+
+    describe "date_revenue()" do
+      it "should return the revenue for a mechant for a chosen date" do
+        expect(@merch2.date_revenue("2018-04-15")).to eq(405000)
+      end
+    end
   end
 end
