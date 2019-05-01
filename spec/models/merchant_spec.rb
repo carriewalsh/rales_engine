@@ -148,9 +148,12 @@ RSpec.describe Merchant, type: :model do
 
 
     end
-    describe "self.most_revenue" do
+    describe "self.most_revenue()" do
       it "should return a chosen number of top merchants by revenue" do
-        # binding.pry
+        expect(Merchant.most_revenue(5).first.name).to eq("Ondrea Chadburn")
+        expect(Merchant.most_revenue(5).first.revenue).to eq(5071000)
+        expect(Merchant.most_revenue(3).to_a.count).to eq(3)
+        expect(Merchant.most_revenue(1).first.name).to eq("Ondrea Chadburn")
       end
     end
   end
