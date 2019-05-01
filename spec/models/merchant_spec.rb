@@ -178,5 +178,11 @@ RSpec.describe Merchant, type: :model do
         expect(Merchant.date_revenue("2018-04-14").to_a.count).to eq(5)
       end
     end
+
+    describe "self.favorite_merchant()" do
+      it "should return the merchant with the most successful transactions for a chosen customer" do
+        expect(Merchant.favorite_merchant(@cust48).name).to eq("asdf")
+      end
+    end
   end
 end
