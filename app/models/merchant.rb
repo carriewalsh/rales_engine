@@ -17,4 +17,8 @@ class Merchant < ApplicationRecord
     end_of_day = beginning + 1.day - 1.minute
     joins(invoices: :invoice_items).select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").where("invoice_items.updated_at BETWEEN ? AND ?", beginning, end_of_day).group(:id).order("revenue DESC")
   end
+
+  def self.favorite_merchant(customer_id)
+    joins(invoices: :transactions).select("merchants.*, COUNT(transactions.id) AS count").where("invoices.customer_id": customer_id).group(:id).order("count DESC").first
+  end
 end

@@ -181,7 +181,9 @@ RSpec.describe Merchant, type: :model do
 
     describe "self.favorite_merchant()" do
       it "should return the merchant with the most successful transactions for a chosen customer" do
-        expect(Merchant.favorite_merchant(@cust48).name).to eq("asdf")
+        expect(Merchant.favorite_merchant(@cust48).name).to eq("Ondrea Chadburn")
+        expect(Merchant.favorite_merchant(@cust49).name).to eq("Ondrea Chadburn")
+        expect(Merchant.favorite_merchant(@cust50).name).to eq("Raff Faust")
       end
     end
   end
