@@ -156,9 +156,9 @@ RSpec.describe Customer, type: :model do
 
     describe "self.pending_customers(merchant_id)" do
       it "should return a list of distinct customers with outstandint failed transactions for chosen merchant" do
-        expect(Customer.pending_customers(@merch1.id).first.first_name).to eq("Christiano")
-        expect(Customer.pending_customers(@merch1.id).count).to eq(1)
-        expect(Customer.pending_customers(@merch1.id)).to_not include(@cust49)
+        expect(Customer.pending_customers(@merch3).first.first_name).to eq("Christiano")
+        expect(Customer.pending_customers(@merch3).count).to eq(1)
+        expect(Customer.pending_customers(@merch3)).to_not include(@cust49)
       end
     end
   end
