@@ -141,16 +141,24 @@ RSpec.describe Customer, type: :model do
       @t9 = @invoice9.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
       @t10 = @invoice10.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
       @t11 = @invoice11.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
-      @t12 = @invoice12.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
+      @t12 = @invoice12.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "failed")
       @t13 = @invoice13.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
       @t14 = @invoice14.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
-      @t15 = @invoice15.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
+      @t15 = @invoice15.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "failed")
     end
 
     describe "self.favorite_customer(merchant_id)" do
       it "should return the customer with the most successful transactions for a chosen merchant" do
         expect(Customer.favorite_customer(@merch1).first_name).to eq("Reynold")
         expect(Customer.favorite_customer(@merch1).total).to eq(4)
+      end
+    end
+
+    describe "self.pending_customers(merchant_id)" do
+      it "should return a list of distinct customers with outstandint failed transactions for chosen merchant" do
+        expect(Customer.pending_customers(@merch1.id).first.first_name).to eq("Christiano")
+        expect(Customer.pending_customers(@merch1.id).count).to eq(1)
+        expect(Customer.pending_customers(@merch1.id)).to_not include(@cust49)
       end
     end
   end
