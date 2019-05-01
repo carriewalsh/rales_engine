@@ -22,6 +22,13 @@ describe "Merchants API" do
   end
 
   xit "can get one merchant by name" do
+    name = create(:merchant).name.split.join("-")
 
+    get "/api/v1/merchants/#{name}"
+    expect(response).to be_successful
+
+    merchant = JSON.parse(response.body)
+
+    expect(merchant["data"]["name"]).to eq(name)
   end
 end
