@@ -186,5 +186,9 @@ RSpec.describe Merchant, type: :model do
         expect(Merchant.favorite_merchant(@cust50).name).to eq("Raff Faust")
       end
     end
+
+    describe "total_revenue" do
+      expect(@merch2.total_revenue).to eq(405000)
+    end
   end
 end
