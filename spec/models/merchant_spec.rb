@@ -156,5 +156,14 @@ RSpec.describe Merchant, type: :model do
         expect(Merchant.most_revenue(1).first.name).to eq("Ondrea Chadburn")
       end
     end
+
+    describe "self.most_items()" do
+      it "should return a chosen number of top merchants by items sold" do
+        expect(Merchant.most_items(2).last.name).to eq("Con Chilver")
+        expect(Merchant.most_items(2).last.total).to eq(51)
+        expect(Merchant.most_items(3).last.total).to eq(33)
+        expect(Merchant.most_revenue(3).to_a.count).to eq(3)
+      end
+    end
   end
 end
