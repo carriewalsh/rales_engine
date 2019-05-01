@@ -159,5 +159,14 @@ RSpec.describe Item, type: :model do
         expect(Item.top_by_revenue(4).to_a.count).to eq(4)
       end
     end
+
+    describe "self.top_by_quantity()" do
+      it "should return a chosen number of items ordered by their quantity sold" do
+        expect(Item.top_by_quantity(2).first.name).to eq(@item1.name)
+        expect(Item.top_by_quantity(2).first.revenue).to eq(123)
+        expect(Item.top_by_quantity(2).to_a.count).to eq(2)
+        expect(Item.top_by_quantity(4).to_a.count).to eq(4)
+      end
+    end
   end
 end
