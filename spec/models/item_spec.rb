@@ -162,8 +162,8 @@ RSpec.describe Item, type: :model do
 
     describe "self.top_by_quantity()" do
       it "should return a chosen number of items ordered by their quantity sold" do
-        expect(Item.top_by_quantity(2).first.name).to eq(@item1.name)
-        expect(Item.top_by_quantity(2).first.revenue).to eq(123)
+        expect(Item.top_by_quantity(2).first.name).to eq(@item6.name)
+        expect(Item.top_by_quantity(2).first.total).to eq(33)
         expect(Item.top_by_quantity(2).to_a.count).to eq(2)
         expect(Item.top_by_quantity(4).to_a.count).to eq(4)
       end
