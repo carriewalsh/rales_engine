@@ -171,6 +171,9 @@ RSpec.describe Merchant, type: :model do
         expect(Merchant.date_revenue("2018-04-15").first.name).to eq("Raff Faust")
         expect(Merchant.date_revenue("2018-04-15").first.revenue).to eq(405000)
         expect(Merchant.date_revenue("2018-04-15").last.revenue).to eq(146000)
+        expect(Merchant.date_revenue("15-04-2018").last.revenue).to eq(146000)
+        expect(Merchant.date_revenue("2018/04/15").last.revenue).to eq(146000)
+        expect(Merchant.date_revenue("15/04/2018").last.revenue).to eq(146000)
         expect(Merchant.date_revenue("2018-04-15").to_a.count).to eq(3)
         expect(Merchant.date_revenue("2018-04-14").to_a.count).to eq(5)
       end
