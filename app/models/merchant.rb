@@ -21,4 +21,8 @@ class Merchant < ApplicationRecord
   def self.favorite_merchant(customer_id)
     joins(invoices: :transactions).select("merchants.*, COUNT(transactions.id) AS count").where("invoices.customer_id": customer_id).group(:id).order("count DESC").first
   end
+
+  def total_revenue
+    invoices.joins(:transactions, :invoice_items).where("transactions.result = 'success'").sum("invoice_items.quantity * invoice_items.unit_price")
+  end
 end

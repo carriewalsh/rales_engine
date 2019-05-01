@@ -188,7 +188,9 @@ RSpec.describe Merchant, type: :model do
     end
 
     describe "total_revenue" do
-      expect(@merch2.total_revenue).to eq(405000)
+      it "should return total revenue for specific merchant" do
+        expect(@merch1.total_revenue).to eq(5071000)
+      end
     end
   end
 end
