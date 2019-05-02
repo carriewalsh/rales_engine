@@ -40,7 +40,7 @@ describe "Merchants API" do
     @t2 = @invoice2.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "failed")
     @t3 = @invoice2.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
     @t4 = @invoice3.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
-    @t5 = @invoice4.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
+    @t5 = @invoice4.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "failed")
   end
 
   it "sends a list of merchants" do
@@ -108,7 +108,7 @@ describe "Merchants API" do
       get '/api/v1/merchants/most_revenue?quantity=3'
       merchants = JSON.parse(response.body)["data"]
 
-      expect(merchants.count).to eq(3)
+      expect(merchants.count).to eq(2)
     end
 
     it "can send a list of a requested quantity of top merchants by quantity" do
@@ -121,7 +121,7 @@ describe "Merchants API" do
       get '/api/v1/merchants/most_items?quantity=3'
       merchants = JSON.parse(response.body)["data"]
 
-      expect(merchants.count).to eq(3)
+      expect(merchants.count).to eq(2)
     end
 
     it "can send a total revenue amount for all merchants on a chosen date" do
@@ -147,6 +147,13 @@ describe "Merchants API" do
     it "can send the date_revenue for a specific merchant" do
       date = "2012-04-17"
       get "/api/v1/merchants/#{@merch1.id}/revenue?date=#{date}"
+    end
+
+    it "can send a list of pending customers" do
+      get "/api/v1/merchants/#{@merch1.id}/customers_with_pending_invoices"
+      expect(response).to be_successful
+
+      customers = JSON.parse(response.body)["data"]
     end
   end
 end

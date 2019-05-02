@@ -185,13 +185,13 @@ RSpec.describe Merchant, type: :model do
 
     describe "total_revenue" do
       it "should return total revenue for specific merchant" do
-        expect(@merch1.total_revenue).to eq(50710.00)
+        expect(@merch1.total_revenue/100.0).to eq(50710.00)
       end
     end
 
     describe "date_revenue()" do
       it "should return the revenue for a mechant for a chosen date" do
-        expect(@merch2.date_revenue("2018-04-14")).to eq(15810)
+        expect(@merch2.date_revenue("2018-04-14")/100.0).to eq(15810)
       end
     end
   end
