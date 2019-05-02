@@ -23,4 +23,37 @@ RSpec.describe "Customers API" do
     customer = JSON.parse(response.body)["data"]
     expect(customer["attributes"]["id"].to_i).to eq(id)
   end
+
+  it "can find customer by id" do
+    id = @cust48.id
+
+    get "/api/v1/customers/find?id=#{id}"
+    expect(response).to be_successful
+
+    customer = JSON.parse(response.body)["data"]
+
+    expect(customer["attributes"]["id"].to_i).to eq(id)
+  end
+
+  it "can find customer by first_name" do
+    first_name = @cust48.first_name
+
+    get "/api/v1/customers/find?first_name=#{first_name}"
+    expect(response).to be_successful
+
+    customer = JSON.parse(response.body)["data"]
+
+    expect(customer["attributes"]["first_name"]).to eq(first_name)
+  end
+
+  it "can find customer by last_name" do
+    last_name = @cust48.last_name
+
+    get "/api/v1/customers/find?last_name=#{last_name}"
+    expect(response).to be_successful
+
+    customer = JSON.parse(response.body)["data"]
+
+    expect(customer["attributes"]["last_name"]).to eq(last_name)
+  end
 end
