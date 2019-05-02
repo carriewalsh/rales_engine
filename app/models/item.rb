@@ -4,7 +4,19 @@ class Item < ApplicationRecord
   belongs_to :merchant
 
   validates_presence_of :name,
-                        :description, 
+                        :description,
                         :unit_price
   validates_numericality_of :unit_price
+
+  def self.top_by_revenue(count)
+    joins(:invoice_items).select("items.*, ROUND(SUM(invoice_items.quantity * invoice_items.unit_price)/100,2) AS revenue").group(:id).order("revenue DESC").limit(count)
+  end
+
+  def self.top_by_quantity(count)
+    Item.joins(:invoice_items).select("items.*, SUM(invoice_items.quantity) AS total").group(:id).order("total DESC").limit(count)
+  end
+
+  def best_date
+    invoices.includes(:invoice_items).select("invoices.updated_at AS date, ROUND(SUM(invoice_items.quantity * invoice_items.unit_price)/100,2) AS revenue").group(:updated_at).order("revenue DESC").take
+  end
 end
