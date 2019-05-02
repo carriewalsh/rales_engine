@@ -1,43 +1,11 @@
 require "rails_helper"
 
 describe "Merchants API" do
-  it "sends a list of merchants" do
-    create_list(:merchant, 4)
-
-    get "/api/v1/merchants"
-    expect(response).to be_successful
-    merchants = JSON.parse(response.body)
-    expect(merchants["data"].count).to eq(4)
-  end
-
-  it "can get one merchant by id" do
-    id = create(:merchant).id
-
-    get "/api/v1/merchants/#{id}"
-    expect(response).to be_successful
-
-    merchant = JSON.parse(response.body)
-
-    expect(merchant["data"]["id"]).to eq(id.to_s)
-  end
-
-  xit "can get one merchant by name" do
-    name = create(:merchant).name.split.join("-")
-
-    get "/api/v1/merchants/#{name}"
-    expect(response).to be_successful
-
-    merchant = JSON.parse(response.body)
-
-    expect(merchant["data"]["name"]).to eq(name)
-  end
-end
-
-describe "Merchants Logic API" do
   before :each do
     @merch1 = Merchant.create(name: "Ondrea Chadburn")
     @merch2 = Merchant.create(name: "Raff Faust")
     @merch3 = Merchant.create(name: "Con Chilver")
+
     @cust48 = Customer.create(first_name: "Trixie", last_name: "Eronie")
     @cust49 = Customer.create(first_name: "Reynold", last_name: "Beed")
     @cust50 = Customer.create(first_name: "Christiano", last_name: "Trighton")
@@ -65,10 +33,55 @@ describe "Merchants Logic API" do
     @t3 = @invoice2.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
   end
 
-  it "can send a list of a requested quantity of top merchants by revenue" do
-    get '/api/v1/merchants/revenue'
+  it "sends a list of merchants" do
+    get "/api/v1/merchants"
+    expect(response).to be_successful
+    merchants = JSON.parse(response.body)
+    expect(merchants["data"].count).to eq(3)
+  end
+
+  it "can get one merchant by id" do
+    id = create(:merchant).id
+
+    get "/api/v1/merchants/#{id}"
     expect(response).to be_successful
 
+    merchant = JSON.parse(response.body)
 
+    expect(merchant["data"]["id"]).to eq(id.to_s)
+  end
+
+  context "Find" do
+    xit "can find one merchant by name" do
+      name = create(:merchant).name.split.join("-")
+
+      get "/api/v1/merchants/#{name}"
+      expect(response).to be_successful
+
+      merchant = JSON.parse(response.body)
+
+      expect(merchant["data"]["name"]).to eq(name)
+    end
+  end
+
+  context "Relationships" do
+    it "can get all items for a specific merchant" do
+      get "/api/v1/merchants/#{@merch2.id}/items"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+    end
+  end
+
+  describe "Merchants Logic" do
+
+    xit "can send a list of a requested quantity of top merchants by revenue" do
+      get '/api/v1/merchants/revenue'
+      expect(response).to be_successful
+
+
+
+    end
   end
 end

@@ -16,8 +16,8 @@ Rails.application.routes.draw do
         # get '/:id/customers_with_pending_invoices', to: 'pending_customers#show'
       end
 
-      resources :merchants, only: [:index, :show] do
-        # resources :items, only: [:index]
+      resources :merchants, only: [:index, :show], module: :merchants do
+        resources :items, only: [:index]
         # resources :invoices, only: [:index]
       end
 
