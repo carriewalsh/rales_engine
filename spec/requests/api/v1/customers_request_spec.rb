@@ -90,17 +90,18 @@ RSpec.describe "Customers API" do
 
       customers = JSON.parse(response.body)["data"]
       expect(customers.first["attributes"]["first_name"]).to eq(first_name)
+      expect(customers.count).to eq(2)
     end
 
     it "can find all customers by last_name" do
-      last_name = @cust48.last_name
+      last_name = @cust49.last_name
 
       get "/api/v1/customers/find_all?last_name=#{last_name}"
       expect(response).to be_successful
 
       customers = JSON.parse(response.body)["data"]
-
       expect(customers.first["attributes"]["last_name"]).to eq(last_name)
+      expect(customers.count).to eq(2)
     end
 
     it "can find all customers by created_at" do
@@ -112,6 +113,7 @@ RSpec.describe "Customers API" do
 
       customers = JSON.parse(response.body)["data"]
       expect(customers.first["attributes"]["id"]).to eq(@cust48.id)
+      expect(customers.count).to eq(2)
     end
 
     it "can find all customers by updated_at" do
@@ -124,5 +126,9 @@ RSpec.describe "Customers API" do
       customers = JSON.parse(response.body)["data"]
       expect(customers.first["attributes"]["id"]).to eq(@cust48.id)
     end
+  end
+
+  it "can find a random customer" do
+
   end
 end
