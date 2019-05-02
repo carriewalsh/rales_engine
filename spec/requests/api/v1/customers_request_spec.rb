@@ -2,9 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Customers API" do
   before :each do
-    @cust48 = Customer.create(first_name: "Trixie", last_name: "Eronie", created_at: "2012-03-24T14:14:14.000Z")
-    @cust49 = Customer.create(first_name: "Reynold", last_name: "Beed")
-    @cust50 = Customer.create(first_name: "Christiano", last_name: "Trighton")
+    @cust48 = Customer.create(first_name: "Trixie", last_name: "Eronie", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
   end
 
   it "sends a list of customers" do
@@ -12,7 +10,7 @@ RSpec.describe "Customers API" do
     expect(response).to be_successful
 
     customers = JSON.parse(response.body)
-    expect(customers["data"].count).to eq(3)
+    expect(customers["data"].count).to eq(1)
   end
 
   it "can get a single customer by id" do
@@ -62,6 +60,17 @@ RSpec.describe "Customers API" do
 
 
     get "/api/v1/customers/find?created_at=#{created_at}"
+    expect(response).to be_successful
+
+    customer = JSON.parse(response.body)["data"]
+    expect(customer["attributes"]["id"]).to eq(@cust48.id)
+  end
+
+  it "can find customer by updated_at" do
+    updated_at = @cust48.updated_at
+
+
+    get "/api/v1/customers/find?updated_at=#{updated_at}"
     expect(response).to be_successful
 
     customer = JSON.parse(response.body)["data"]
