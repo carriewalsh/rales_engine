@@ -4,7 +4,7 @@ class Customer < ApplicationRecord
   validates_presence_of :first_name, :last_name
 
   def self.favorite_customer(merchant)
-    joins(invoices: :transactions).select("customers.*, COUNT(transactions.id) AS total").where("invoices.merchant_id": merchant).group(:id).order("total DESC").first
+    joins(invoices: :transactions).select("customers.*, COUNT(transactions.id) AS total").where("transactions.result = ? AND invoices.merchant_id= ? ","success", merchant).group(:id).order("total DESC").first
   end
 
   def self.pending_customers(merchant)

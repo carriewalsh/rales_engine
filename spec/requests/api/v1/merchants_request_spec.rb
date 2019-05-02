@@ -137,7 +137,7 @@ describe "Merchants API" do
       expect(response).to be_successful
 
       customer = JSON.parse(response.body)["data"]
-      expect(customer["attributes"]["first_name"]).to eq("Reynold")
+      expect(customer["attributes"]["first_name"]).to eq("Trixie")
     end
   end
 end
