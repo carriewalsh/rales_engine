@@ -171,7 +171,9 @@ RSpec.describe Item, type: :model do
 
     describe "best_date" do
       it "should return the date with the most sales for a given item" do
-        expect(@item1.best_date).to eq("2018-04-15")
+        expect(@item1.best_date.day).to eq(2)
+        expect(@item1.best_date.month).to eq(5)
+        expect(@item1.best_date.year).to eq(2019)
       end
     end
   end

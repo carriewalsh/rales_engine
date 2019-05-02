@@ -15,4 +15,8 @@ class Item < ApplicationRecord
   def self.top_by_quantity(count)
     Item.joins(:invoice_items).select("items.*, SUM(invoice_items.quantity) AS total").group(:id).order("total DESC").limit(count)
   end
+
+  def best_date
+    invoices.includes(:invoice_items).select("invoices.updated_at AS date, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").group(:updated_at).order("revenue DESC").take.date
+  end
 end
