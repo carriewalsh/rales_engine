@@ -11,6 +11,6 @@ RSpec.describe "Customers API" do
     expect(response).to be_successful
 
     customers = JSON.parse(response.body)
-    expect(customers.count).to eq(2)
+    expect(customers["data"].count).to eq(3)
   end
 end
