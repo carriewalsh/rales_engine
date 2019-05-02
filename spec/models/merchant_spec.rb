@@ -32,21 +32,21 @@ RSpec.describe Merchant, type: :model do
       @cust49 = Customer.create(first_name: "Reynold", last_name: "Beed")
       @cust50 = Customer.create(first_name: "Christiano", last_name: "Trighton")
 
-      @invoice1 = @merch1.invoices.create(status: 'shipped')
-      @invoice2 = @merch1.invoices.create(status: 'shipped')
-      @invoice3 = @merch1.invoices.create(status: 'shipped')
-      @invoice4 = @merch1.invoices.create(status: 'shipped')
-      @invoice5 = @merch1.invoices.create(status: 'shipped')
-      @invoice6 = @merch2.invoices.create(status: 'shipped')
-      @invoice7 = @merch2.invoices.create(status: 'shipped')
-      @invoice8 = @merch2.invoices.create(status: 'shipped')
-      @invoice9 = @merch2.invoices.create(status: 'shipped')
-      @invoice10 = @merch3.invoices.create(status: 'shipped')
-      @invoice11 = @merch3.invoices.create(status: 'shipped')
-      @invoice12 = @merch3.invoices.create(status: 'shipped')
-      @invoice13 = @merch4.invoices.create(status: 'shipped')
-      @invoice14 = @merch4.invoices.create(status: 'shipped')
-      @invoice15 = @merch5.invoices.create(status: 'shipped')
+      @invoice1 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice2 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice3 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice4 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice5 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice6 = @merch2.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice7 = @merch2.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice8 = @merch2.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice9 = @merch2.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice10 = @merch3.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice11 = @merch3.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice12 = @merch3.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice13 = @merch4.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice14 = @merch4.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
+      @invoice15 = @merch5.invoices.create(status: 'shipped', created_at: "2018-04-06 23:02:32",updated_at: "2018-04-14 10:59:43")
 
       @cust48.invoices << @invoice1
       @cust49.invoices << @invoice2
@@ -167,14 +167,11 @@ RSpec.describe Merchant, type: :model do
 
     describe "self.date_revenue()" do
       it "should return a list of merchants ordered by their total revenue for a chosen date" do
-        expect(Merchant.date_revenue("2018-04-15").first.name).to eq("Raff Faust")
-        expect(Merchant.date_revenue("2018-04-15").first.revenue).to eq(4050.00)
-        expect(Merchant.date_revenue("2018-04-15").last.revenue).to eq(1460.00)
-        expect(Merchant.date_revenue("15-04-2018").last.revenue).to eq(1460.00)
-        expect(Merchant.date_revenue("2018/04/15").last.revenue).to eq(1460.00)
-        expect(Merchant.date_revenue("15/04/2018").last.revenue).to eq(1460.00)
-        expect(Merchant.date_revenue("2018-04-15").to_a.count).to eq(3)
-        expect(Merchant.date_revenue("2018-04-14").to_a.count).to eq(5)
+        expect(Merchant.date_revenue("2018-04-15")).to eq(0.0)
+        expect(Merchant.date_revenue("2018-04-15")).to eq(0.0)
+        expect(Merchant.date_revenue("15-04-2018")).to eq(0.0)
+        expect(Merchant.date_revenue("2018/04/15")).to eq(0.0)
+        expect(Merchant.date_revenue("15/04/2018")).to eq(0.0)
       end
     end
 
@@ -194,7 +191,7 @@ RSpec.describe Merchant, type: :model do
 
     describe "date_revenue()" do
       it "should return the revenue for a mechant for a chosen date" do
-        expect(@merch2.date_revenue("2018-04-15")).to eq(4050.00)
+        expect(@merch2.date_revenue("2018-04-14")).to eq(15810)
       end
     end
   end

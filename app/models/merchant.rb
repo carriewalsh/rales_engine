@@ -14,8 +14,8 @@ class Merchant < ApplicationRecord
 
   def self.date_revenue(date)
     beginning = date.to_datetime
-    end_of_day = beginning + 1.day - 1.minute
-    joins(invoices: :invoice_items).select("merchants.*, ROUND(SUM(invoice_items.quantity * invoice_items.unit_price)/100,2) AS revenue").where("transactions.result = ? AND invoice_items.updated_at BETWEEN ? AND ?", 'success',beginning, end_of_day).group(:id).order("revenue DESC")
+    end_of_day = beginning + 1.day - 1.second
+    Invoice.joins(:invoice_items,:transactions).where("transactions.result = ? AND invoices.updated_at between ? and ?","success",beginning,end_of_day).sum("invoice_items.quantity * invoice_items.unit_price")
   end
 
   def self.favorite_merchant(customer_id)
@@ -27,6 +27,8 @@ class Merchant < ApplicationRecord
   end
 
   def date_revenue(date)
-    Merchant.date_revenue(date).find(self.id).revenue
+    beginning = date.to_datetime
+    end_of_day = beginning + 1.day - 1.second
+    invoices.joins(:transactions, :invoice_items).where("transactions.result = ? AND invoices.updated_at between ? and ?","success",beginning,end_of_day).sum("ROUND(invoice_items.quantity * invoice_items.unit_price/100,2)")
   end
 end

@@ -1,6 +1,6 @@
 class Api::V1::Merchants::RevenueController < ApplicationController
-  def index
-
-    render json: MerchantSerializer.new(Merchant.most_revenue(params[:quantity]))
+  def show
+    total = Merchant.date_revenue(params[:date])/100.0
+    render json: {:data => {:attributes => {:total_revenue => total.to_s}}}
   end
 end
