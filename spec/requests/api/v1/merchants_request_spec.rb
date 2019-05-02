@@ -131,5 +131,9 @@ describe "Merchants API" do
       merchants = JSON.parse(response.body)["data"]
       expect(merchants["attributes"]["total_revenue"]).to eq("0.0")
     end
+
+    it "can return a favorite merchant for a customer" do
+      get "/api/v1/merchants/#{@merch1.id}/favorite_customer"
+    end
   end
 end
