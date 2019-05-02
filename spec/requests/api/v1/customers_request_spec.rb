@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Customers API" do
   before :each do
-    @cust48 = Customer.create(first_name: "Trixie", last_name: "Eronie")
+    @cust48 = Customer.create(first_name: "Trixie", last_name: "Eronie", created_at: "2012-03-24T14:14:14.000Z")
     @cust49 = Customer.create(first_name: "Reynold", last_name: "Beed")
     @cust50 = Customer.create(first_name: "Christiano", last_name: "Trighton")
   end
@@ -55,5 +55,16 @@ RSpec.describe "Customers API" do
     customer = JSON.parse(response.body)["data"]
 
     expect(customer["attributes"]["last_name"]).to eq(last_name)
+  end
+
+  it "can find customer by created_at" do
+    created_at = @cust48.created_at
+
+
+    get "/api/v1/customers/find?created_at=#{created_at}"
+    expect(response).to be_successful
+
+    customer = JSON.parse(response.body)["data"]
+    expect(customer["attributes"]["id"]).to eq(@cust48.id)
   end
 end
