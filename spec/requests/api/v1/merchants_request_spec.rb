@@ -134,6 +134,10 @@ describe "Merchants API" do
 
     it "can return a favorite merchant for a customer" do
       get "/api/v1/merchants/#{@merch1.id}/favorite_customer"
+      expect(response).to be_successful
+
+      customer = JSON.parse(response.body)["data"]
+      expect(customer["attributes"]["first_name"]).to eq("Reynold")
     end
   end
 end
