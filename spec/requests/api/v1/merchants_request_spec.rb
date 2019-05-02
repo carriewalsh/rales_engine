@@ -16,17 +16,25 @@ describe "Merchants API" do
 
     @invoice1 = @merch1.invoices.create(status: 'shipped')
     @invoice2 = @merch1.invoices.create(status: 'shipped')
+    @invoice3 = @merch2.invoices.create(status: 'shipped')
+    @invoice4 = @merch3.invoices.create(status: 'shipped')
 
     @cust48.invoices << @invoice1
     @cust49.invoices << @invoice2
+    @cust48.invoices << @invoice3
+    @cust50.invoices << @invoice4
 
     @ii1 = @item1.invoice_items.create(quantity: 10, unit_price: 20000, created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
     @ii2 = @item2.invoice_items.create(quantity: 10, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
     @ii3 = @item3.invoice_items.create(quantity: 10, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
+    @ii4 = @item2.invoice_items.create(quantity: 10, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
+    @ii5 = @item3.invoice_items.create(quantity: 10, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
 
     @invoice1.invoice_items << @ii1
     @invoice1.invoice_items << @ii2
     @invoice2.invoice_items << @ii3
+    @invoice3.invoice_items << @ii4
+    @invoice4.invoice_items << @ii5
 
     @t1 = @invoice1.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
     @t2 = @invoice2.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "failed")
@@ -65,22 +73,41 @@ describe "Merchants API" do
   end
 
   context "Relationships" do
-    it "can get all items for a specific merchant" do
+    xit "can get all items for a specific merchant" do
       get "/api/v1/merchants/#{@merch2.id}/items"
       expect(response).to be_successful
 
       items = JSON.parse(response.body)["data"]
       expect(items.count).to eq(1)
     end
+
+    xit "can get all invoices for a specific merchant" do
+      get "/api/v1/merchants/#{@merch1.id}/invoices"
+      expect(response).to be_successful
+
+      invoices = JSON.parse(response.body)["data"]
+      expect(invoices.count).to eq(2)
+
+      get "/api/v1/merchants/#{@merch2.id}/invoices"
+
+      invoices = JSON.parse(response.body)["data"]
+      expect(invoices.count).to eq(0)
+    end
   end
 
   describe "Merchants Logic" do
 
-    xit "can send a list of a requested quantity of top merchants by revenue" do
-      get '/api/v1/merchants/revenue'
+    it "can send a list of a requested quantity of top merchants by revenue" do
+      get '/api/v1/merchants/revenue?quantity=1'
       expect(response).to be_successful
 
+      merchants = JSON.parse(response.body)["data"]
+      expect(merchants.count).to eq(1)
 
+      get '/api/v1/merchants/revenue?quantity=3'
+      merchants = JSON.parse(response.body)["data"]
+
+      expect(merchants.count).to eq(3)
 
     end
   end
