@@ -96,19 +96,30 @@ describe "Merchants API" do
   end
 
   describe "Merchants Logic" do
-
     it "can send a list of a requested quantity of top merchants by revenue" do
-      get '/api/v1/merchants/revenue?quantity=1'
+      get '/api/v1/merchants/most_revenue?quantity=1'
       expect(response).to be_successful
 
       merchants = JSON.parse(response.body)["data"]
       expect(merchants.count).to eq(1)
 
-      get '/api/v1/merchants/revenue?quantity=3'
+      get '/api/v1/merchants/most_revenue?quantity=3'
       merchants = JSON.parse(response.body)["data"]
 
       expect(merchants.count).to eq(3)
+    end
 
+    it "can send a list of a requested quantity of top merchants by quantity" do
+      get '/api/v1/merchants/most_items?quantity=1'
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body)["data"]
+      expect(merchants.count).to eq(1)
+
+      get '/api/v1/merchants/most_items?quantity=3'
+      merchants = JSON.parse(response.body)["data"]
+
+      expect(merchants.count).to eq(3)
     end
   end
 end
