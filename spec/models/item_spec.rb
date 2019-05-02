@@ -154,7 +154,7 @@ RSpec.describe Item, type: :model do
     describe "self.top_by_revenue()" do
       it "should return a chosen number of items ordered by their total revenue" do
         expect(Item.top_by_revenue(2).first.name).to eq(@item5.name)
-        expect(Item.top_by_revenue(2).first.revenue).to eq(2720000)
+        expect(Item.top_by_revenue(2).first.revenue).to eq(27200.00)
         expect(Item.top_by_revenue(2).to_a.count).to eq(2)
         expect(Item.top_by_revenue(4).to_a.count).to eq(4)
       end
@@ -171,9 +171,10 @@ RSpec.describe Item, type: :model do
 
     describe "best_date" do
       it "should return the date with the most sales for a given item" do
-        expect(@item1.best_date.day).to eq(2)
-        expect(@item1.best_date.month).to eq(5)
-        expect(@item1.best_date.year).to eq(2019)
+        expect(@item1.best_date.date.day).to eq(2)
+        expect(@item1.best_date.date.month).to eq(5)
+        expect(@item1.best_date.date.year).to eq(2019)
+        expect(@item1.best_date.revenue).to eq(2000.00)
       end
     end
   end
