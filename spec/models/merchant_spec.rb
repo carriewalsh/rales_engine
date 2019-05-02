@@ -146,11 +146,11 @@ RSpec.describe Merchant, type: :model do
       @t14 = @invoice14.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
       @t15 = @invoice15.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
     end
-    
+
     describe "self.most_revenue()" do
       it "should return a chosen number of top merchants by revenue" do
         expect(Merchant.most_revenue(5).first.name).to eq("Ondrea Chadburn")
-        expect(Merchant.most_revenue(5).first.revenue).to eq(5071000)
+        expect(Merchant.most_revenue(5).first.revenue).to eq(50710.00)
         expect(Merchant.most_revenue(3).to_a.count).to eq(3)
         expect(Merchant.most_revenue(1).first.name).to eq("Ondrea Chadburn")
       end
@@ -168,11 +168,11 @@ RSpec.describe Merchant, type: :model do
     describe "self.date_revenue()" do
       it "should return a list of merchants ordered by their total revenue for a chosen date" do
         expect(Merchant.date_revenue("2018-04-15").first.name).to eq("Raff Faust")
-        expect(Merchant.date_revenue("2018-04-15").first.revenue).to eq(405000)
-        expect(Merchant.date_revenue("2018-04-15").last.revenue).to eq(146000)
-        expect(Merchant.date_revenue("15-04-2018").last.revenue).to eq(146000)
-        expect(Merchant.date_revenue("2018/04/15").last.revenue).to eq(146000)
-        expect(Merchant.date_revenue("15/04/2018").last.revenue).to eq(146000)
+        expect(Merchant.date_revenue("2018-04-15").first.revenue).to eq(4050.00)
+        expect(Merchant.date_revenue("2018-04-15").last.revenue).to eq(1460.00)
+        expect(Merchant.date_revenue("15-04-2018").last.revenue).to eq(1460.00)
+        expect(Merchant.date_revenue("2018/04/15").last.revenue).to eq(1460.00)
+        expect(Merchant.date_revenue("15/04/2018").last.revenue).to eq(1460.00)
         expect(Merchant.date_revenue("2018-04-15").to_a.count).to eq(3)
         expect(Merchant.date_revenue("2018-04-14").to_a.count).to eq(5)
       end
@@ -188,13 +188,13 @@ RSpec.describe Merchant, type: :model do
 
     describe "total_revenue" do
       it "should return total revenue for specific merchant" do
-        expect(@merch1.total_revenue).to eq(5071000)
+        expect(@merch1.total_revenue).to eq(50710.00)
       end
     end
 
     describe "date_revenue()" do
       it "should return the revenue for a mechant for a chosen date" do
-        expect(@merch2.date_revenue("2018-04-15")).to eq(405000)
+        expect(@merch2.date_revenue("2018-04-15")).to eq(4050.00)
       end
     end
   end

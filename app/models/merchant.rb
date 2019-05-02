@@ -5,7 +5,7 @@ class Merchant < ApplicationRecord
   validates_presence_of :name
 
   def self.most_revenue(count)
-    joins(invoices: :invoice_items).select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").group(:id).order("revenue DESC").limit(count)
+    joins(invoices: :invoice_items).select("merchants.*, ROUND(SUM(invoice_items.quantity * invoice_items.unit_price)/100,2) AS revenue").group(:id).order("revenue DESC").limit(count)
   end
 
   def self.most_items(count)
@@ -15,7 +15,7 @@ class Merchant < ApplicationRecord
   def self.date_revenue(date)
     beginning = date.to_datetime
     end_of_day = beginning + 1.day - 1.minute
-    joins(invoices: :invoice_items).select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").where("invoice_items.updated_at BETWEEN ? AND ?", beginning, end_of_day).group(:id).order("revenue DESC")
+    joins(invoices: :invoice_items).select("merchants.*, ROUND(SUM(invoice_items.quantity * invoice_items.unit_price)/100,2) AS revenue").where("invoice_items.updated_at BETWEEN ? AND ?", beginning, end_of_day).group(:id).order("revenue DESC")
   end
 
   def self.favorite_merchant(customer_id)
@@ -23,7 +23,7 @@ class Merchant < ApplicationRecord
   end
 
   def total_revenue
-    invoices.joins(:transactions, :invoice_items).where("transactions.result = 'success'").sum("invoice_items.quantity * invoice_items.unit_price")
+    invoices.joins(:transactions, :invoice_items).where("transactions.result = 'success'").sum("ROUND(invoice_items.quantity * invoice_items.unit_price/100,2)")
   end
 
   def date_revenue(date)
