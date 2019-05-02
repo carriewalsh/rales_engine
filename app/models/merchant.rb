@@ -23,12 +23,12 @@ class Merchant < ApplicationRecord
   end
 
   def total_revenue
-    invoices.joins(:transactions, :invoice_items).where("transactions.result = 'success'").sum("ROUND(invoice_items.quantity * invoice_items.unit_price/100,2)")
+    invoices.joins(:transactions, :invoice_items).where("transactions.result = 'success'").sum("invoice_items.quantity * invoice_items.unit_price")
   end
 
   def date_revenue(date)
     beginning = date.to_datetime
     end_of_day = beginning + 1.day - 1.second
-    invoices.joins(:transactions, :invoice_items).where("transactions.result = ? AND invoices.updated_at between ? and ?","success",beginning,end_of_day).sum("ROUND(invoice_items.quantity * invoice_items.unit_price/100,2)")
+    invoices.joins(:transactions, :invoice_items).where("transactions.result = ? AND invoices.updated_at between ? and ?","success",beginning,end_of_day).sum("invoice_items.quantity * invoice_items.unit_price")
   end
 end

@@ -132,12 +132,21 @@ describe "Merchants API" do
       expect(merchants["attributes"]["total_revenue"]).to eq("0.0")
     end
 
-    it "can return a favorite merchant for a customer" do
+    it "can send a favorite merchant for a customer" do
       get "/api/v1/merchants/#{@merch1.id}/favorite_customer"
       expect(response).to be_successful
 
       customer = JSON.parse(response.body)["data"]
       expect(customer["attributes"]["first_name"]).to eq("Trixie")
+    end
+
+    it "can send the total revenue for a specific merchant" do
+      get "/api/v1/merchants/#{@merch1.id}/revenue"
+    end
+
+    it "can send the date_revenue for a specific merchant" do
+      date = "2012-04-17"
+      get "/api/v1/merchants/#{@merch1.id}/revenue?date=#{date}"
     end
   end
 end
