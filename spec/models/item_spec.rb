@@ -168,5 +168,11 @@ RSpec.describe Item, type: :model do
         expect(Item.top_by_quantity(4).to_a.count).to eq(4)
       end
     end
+
+    describe "best_date" do
+      it "should return the date with the most sales for a given item" do
+        expect(@item1.best_date).to eq("2018-04-15")
+      end
+    end
   end
 end
