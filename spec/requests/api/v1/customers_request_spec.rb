@@ -129,6 +129,12 @@ RSpec.describe "Customers API" do
   end
 
   it "can find a random customer" do
+    get "/api/v1/customers/random"
+    expect(response).to be_successful
 
+    rando = JSON.parse(response.body)
+    expect(rando["data"].class).to eq(Hash)
+    expect(rando["data"]["attributes"]).to be_present
+    expect(rando.count).to eq(1)
   end
 end
