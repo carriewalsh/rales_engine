@@ -4,12 +4,12 @@ class Merchant < ApplicationRecord
 
   validates_presence_of :name
 
-  def self.most_revenue(count)
-    joins(invoices: :invoice_items).select("merchants.*, ROUND(SUM(invoice_items.quantity * invoice_items.unit_price)/100,2) AS revenue").group(:id).order("revenue DESC").limit(count)
+  def self.most_revenue(quantity)
+    joins(invoices: [:invoice_items, :transactions]).select("merchants.*, ROUND(SUM(invoice_items.quantity * invoice_items.unit_price)/100,2) AS revenue").where("transactions.result": 'success').group(:id).order("revenue DESC").limit(quantity)
   end
 
-  def self.most_items(count)
-    joins(invoices: :invoice_items).select("merchants.*, SUM(invoice_items.quantity) AS total").group(:id).order("total DESC").limit(count)
+  def self.most_items(quantity)
+    joins(invoices: [:invoice_items, :transactions]).select("merchants.*, SUM(invoice_items.quantity) AS total").where("transactions.result": 'success').group(:id).order("total DESC").limit(quantity)
   end
 
   def self.date_revenue(date)
