@@ -1,9 +1,93 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :api do
     namespace :v1 do
-      resources :merchants, only: [:index, :show]
+      resources :merchants, only: [:index, :show] do
+        # resources :items, only: [:index]
+        # resources :invoices, only: [:index]
+      end
+
+      namespace :merchants do
+        # get '/find', to: 'search#show'
+        # get '/find_all', to: 'search#index'
+        # get '/random', to: 'random#show'
+        #
+        # get '/revenue', to: 'revenue#index'
+        # get '/most_revenue', to: 'most_revenue#show'
+        # get '/most_items', to: 'most_items#show'
+        # get '/:id/revenue/', to: 'revenue#show'
+        #
+        # get '/:id/favorite_customer', to: 'favorite_customer#show'
+        # get '/:id/customers_with_pending_invoices', to: 'pending_customers#show'
+      end
+
+
+      resources :customers, only: [:index, :show] do
+        # resources :invoices, only: [:index]
+        # resources :transactions, only: [:index]
+      end
+
+      namespace :customers do
+        # get '/find', to: 'search#show'
+        # get '/find_all', to: 'search#index'
+        # get '/random', to: 'random#show'
+        #
+        # get '/favorite_merchant', to: 'favorite_merchant#show'
+      end
+
+
+      resources :items, only: [:index, :show] do
+        # resources :merchants, only: [:index]
+        # resources :invoice_items, only: [:index]
+      end
+
+      namespace :items do
+        # get '/find', to: 'search#show'
+        # get '/find_all', to: 'search#index'
+        # get '/random', to: 'random#show'
+        #
+        # get '/most_revenue', to: 'most_revenue#show'
+        # get '/most_items', to: 'most_items#show'
+        # get '/best_day', to: 'best_day'
+      end
+
+
+      resources :invoice_items, only: [:index, :show] do
+        # resources :items, only: [:index]
+        # resources :invoices, only: [:index]
+      end
+
+      namespace :invoice_items do
+        # get '/find', to: 'search#show'
+        # get '/find_all', to: 'search#index'
+        # get '/random', to: 'random#show'
+      end
+
+
+      resources :invoices, only: [:index,:show] do
+        # resources :merchants, only: [:items]
+        # resources :customers, only: [:items]
+        # resources :items, only: [:items]
+        # resources :invoice_items, only: [:index]
+        # resources :transactions, only: [:index]
+      end
+
+      namespace :invoices do
+        # get '/find', to: 'search#show'
+        # get '/find_all', to: 'search#index'
+        # get '/random', to: 'random#show'
+      end
+
+
+      resources :transactions, only: [:index, :show] do
+        # resources :invoices, only: [:index]
+      end
+
+      namespace :transactions do
+        # get '/find', to: 'search#show'
+        # get '/find_all', to: 'search#index'
+        # get '/random', to: 'random#show'
+      end
     end
   end
 end
