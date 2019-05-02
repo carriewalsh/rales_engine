@@ -123,5 +123,13 @@ describe "Merchants API" do
 
       expect(merchants.count).to eq(3)
     end
+
+    it "can send a list of merchants and their revenues for a specific date" do
+      date = "2012-04-17"
+      get "/api/v1/merchants/revenue?date=#{date}"
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body)["data"]
+    end
   end
 end
