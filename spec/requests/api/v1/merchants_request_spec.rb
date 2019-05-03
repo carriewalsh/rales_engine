@@ -2,9 +2,9 @@ require "rails_helper"
 
 describe "Merchants API" do
   before :each do
-    @merch1 = Merchant.create(name: "Ondrea Chadburn")
-    @merch2 = Merchant.create(name: "Raff Faust")
-    @merch3 = Merchant.create(name: "Con Chilver")
+    @merch1 = Merchant.create(name: "Ondrea Chadburn", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
+    @merch2 = Merchant.create(name: "Raff Faust", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
+    @merch3 = Merchant.create(name: "Con Chilver", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
 
     @cust48 = Customer.create(first_name: "Trixie", last_name: "Eronie")
     @cust49 = Customer.create(first_name: "Reynold", last_name: "Beed")
@@ -71,6 +71,29 @@ describe "Merchants API" do
       merchant = JSON.parse(response.body)["data"]
 
       expect(merchant["attributes"]["name"]).to eq(name)
+    end
+
+    it "can find merchant by created_at" do
+      created_at = @merch1.created_at
+
+
+      get "/api/v1/merchants/find?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      merchant = JSON.parse(response.body)["data"]
+
+      expect(merchant["attributes"]["id"]).to eq(@merch1.id)
+    end
+
+    it "can find merchant by updated_at" do
+      updated_at = @merch1.updated_at
+
+
+      get "/api/v1/merchants/find?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      merchant = JSON.parse(response.body)["data"]
+      expect(merchant["attributes"]["id"]).to eq(@merch1.id)
     end
   end
 
