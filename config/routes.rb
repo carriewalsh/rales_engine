@@ -46,9 +46,9 @@ Rails.application.routes.draw do
         get '/:id/best_day', to: 'best_day#show'
       end
 
-      resources :items, only: [:index, :show] do
+      resources :items, only: [:index, :show], module: :items do
         # resources :merchants, only: [:index]
-        # resources :invoice_items, only: [:index]
+        resources :invoice_items, only: [:index]
       end
 
 

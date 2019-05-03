@@ -59,6 +59,20 @@ RSpec.describe "Items API" do
 
   end
 
+  context "Relationships" do
+    it "can send all invoice_items for a specific item" do
+      get "/api/v1/items/#{@item1.id}/invoice_items"
+      expect(response).to be_successful
+
+      invoice_items = JSON.parse(response.body)["data"]
+      expect(invoice_items.count).to eq(2)
+    end
+
+    it "can send the merchant for a specific item" do
+
+    end
+  end
+
   context "Items Logic" do
     it "can send a requested quantity of top items by revenue" do
       get "/api/v1/items/most_revenue?quantity=#{2}"

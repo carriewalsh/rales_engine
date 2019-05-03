@@ -8,6 +8,9 @@ class Api::V1::Transactions::SearchController < ApplicationController
   def index
     key = params.keys.first
     value = params.values.first
-    render json: TransactionSerializer.new(Transaction.where(key => value))
+    transactions = Transaction.where(key => value)
+    render json: TransactionSerializer.new(transactions.order(id: :asc))
   end
 end
+
+# find by invoice_id in order
