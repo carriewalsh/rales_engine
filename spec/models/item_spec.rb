@@ -36,21 +36,21 @@ RSpec.describe Item, type: :model do
       @cust49 = Customer.create(first_name: "Reynold", last_name: "Beed")
       @cust50 = Customer.create(first_name: "Christiano", last_name: "Trighton")
 
-      @invoice1 = @merch1.invoices.create(status: 'shipped')
-      @invoice2 = @merch1.invoices.create(status: 'shipped')
-      @invoice3 = @merch1.invoices.create(status: 'shipped')
-      @invoice4 = @merch1.invoices.create(status: 'shipped')
-      @invoice5 = @merch1.invoices.create(status: 'shipped')
-      @invoice6 = @merch2.invoices.create(status: 'shipped')
-      @invoice7 = @merch2.invoices.create(status: 'shipped')
-      @invoice8 = @merch2.invoices.create(status: 'shipped')
-      @invoice9 = @merch2.invoices.create(status: 'shipped')
-      @invoice10 = @merch3.invoices.create(status: 'shipped')
-      @invoice11 = @merch3.invoices.create(status: 'shipped')
-      @invoice12 = @merch3.invoices.create(status: 'shipped')
-      @invoice13 = @merch4.invoices.create(status: 'shipped')
-      @invoice14 = @merch4.invoices.create(status: 'shipped')
-      @invoice15 = @merch5.invoices.create(status: 'shipped')
+      @invoice1 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice2 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice3 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice4 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice5 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice6 = @merch2.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice7 = @merch2.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice8 = @merch2.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice9 = @merch2.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice10 = @merch3.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice11 = @merch3.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice12 = @merch3.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice13 = @merch4.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice14 = @merch4.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+      @invoice15 = @merch5.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
 
       @cust48.invoices << @invoice1
       @cust49.invoices << @invoice2
@@ -171,10 +171,10 @@ RSpec.describe Item, type: :model do
 
     describe "best_date" do
       it "should return the date with the most sales for a given item" do
-        expect(@item1.best_date.date.day).to eq(2)
-        expect(@item1.best_date.date.month).to eq(5)
-        expect(@item1.best_date.date.year).to eq(2019)
-        expect(@item1.best_date.revenue).to eq(2000.00)
+        expect(@item1.best_date.date.day).to eq(13)
+        expect(@item1.best_date.date.month).to eq(4)
+        expect(@item1.best_date.date.year).to eq(2018)
+        expect(@item1.best_date.revenue).to eq(1360000)
       end
     end
   end
