@@ -24,10 +24,10 @@ describe "Merchants API" do
     @cust48.invoices << @invoice3
     @cust50.invoices << @invoice4
 
-    @ii1 = @item1.invoice_items.create(quantity: 10, unit_price: 20000, created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
-    @ii2 = @item2.invoice_items.create(quantity: 10, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
-    @ii3 = @item3.invoice_items.create(quantity: 10, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
-    @ii4 = @item2.invoice_items.create(quantity: 10, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
+    @ii1 = @item1.invoice_items.create(quantity: 30, unit_price: 20000, created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+    @ii2 = @item2.invoice_items.create(quantity: 20, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
+    @ii3 = @item3.invoice_items.create(quantity: 30, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
+    @ii4 = @item2.invoice_items.create(quantity: 20, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
     @ii5 = @item3.invoice_items.create(quantity: 10, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
 
     @invoice1.invoice_items << @ii1
@@ -50,7 +50,7 @@ describe "Merchants API" do
     expect(merchants["data"].count).to eq(3)
   end
 
-  it "can get one merchant by id" do
+  it "can get a single merchant by id" do
     id = create(:merchant).id
 
     get "/api/v1/merchants/#{id}"
@@ -62,15 +62,15 @@ describe "Merchants API" do
   end
 
   context "Find" do
-    xit "can find one merchant by name" do
-      name = create(:merchant).name.split.join("-")
+    it "can find a merchant by name" do
+      name = @merch1.name
 
-      get "/api/v1/merchants/#{name}"
+      get "/api/v1/merchants/find?name=#{name}"
       expect(response).to be_successful
 
-      merchant = JSON.parse(response.body)
+      merchant = JSON.parse(response.body)["data"]
 
-      expect(merchant["data"]["name"]).to eq(name)
+      expect(merchant["attributes"]["name"]).to eq(name)
     end
   end
 
