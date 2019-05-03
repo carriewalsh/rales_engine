@@ -68,5 +68,14 @@ RSpec.describe "Items API" do
       expect(items.count).to eq(2)
       expect(items.first["attributes"]["name"]).to eq("#{@item2.name}")
     end
+
+    it "can send a requested quantity of top items by quantity" do
+      get "/api/v1/items/most_items?quantity=#{2}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(2)
+      expect(items.first["attributes"]["name"]).to eq("#{@item2.name}")
+    end
   end
 end
