@@ -177,6 +177,16 @@ RSpec.describe "Transactions API" do
       transaction = JSON.parse(response.body)["data"]
       expect(transaction.first["attributes"]["id"]).to eq(@t1.id)
     end
+
+    it "can find a random transaction" do
+      get "/api/v1/transactions/random"
+      expect(response).to be_successful
+
+      rando = JSON.parse(response.body)
+      expect(rando["data"].class).to eq(Hash)
+      expect(rando["data"]["attributes"]).to be_present
+      expect(rando.count).to eq(1)
+    end
   end
 
   context "Relationships" do
