@@ -172,6 +172,24 @@ RSpec.describe "Customers API" do
     end
   end
 
+  context "Relationships" do
+    it "can get all invoices for a specific customer" do
+      get "/api/v1/customers/#{@cust48.id}/invoices"
+      expect(response).to be_successful
+
+      invoices = JSON.parse(response.body)["data"]
+      expect(invoices.count).to eq(2)
+    end
+
+    it "can get all transactions for a specific customer" do
+      get "/api/v1/customers/#{@cust48.id}/transactions"
+      expect(response).to be_successful
+
+      transactions = JSON.parse(response.body)["data"]
+      expect(transactions.count).to eq(2)
+    end
+  end
+
   context "Customers Logic" do
     it "can send a favorite merchant for a customer " do
       get "/api/v1/customers/#{@cust48.id}/favorite_merchant"
