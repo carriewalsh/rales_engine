@@ -132,7 +132,7 @@ describe "Merchants API" do
       expect(merchants["attributes"]["total_revenue"]).to eq("0.0")
     end
 
-    it "can send a favorite merchant for a customer" do
+    it "can send a favorite customer for a merchant" do
       get "/api/v1/merchants/#{@merch1.id}/favorite_customer"
       expect(response).to be_successful
 
