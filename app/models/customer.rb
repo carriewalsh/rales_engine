@@ -10,4 +10,8 @@ class Customer < ApplicationRecord
   def self.pending_customers(merchant)
     distinct.left_joins(invoices: [:merchant, :transactions]).where("merchants.id": merchant).where.not("invoices.id IN (SELECT transactions.invoice_id FROM transactions WHERE transactions.result = 'success')")
   end
+
+  def transactions
+    Transaction.joins(:invoice).where("invoices.customer_id": self.id)
+  end
 end

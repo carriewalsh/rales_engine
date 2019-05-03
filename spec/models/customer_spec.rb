@@ -161,5 +161,12 @@ RSpec.describe Customer, type: :model do
         expect(Customer.pending_customers(@merch3)).to_not include(@cust49)
       end
     end
+
+    describe "transactions" do
+      it "should return a list of transactions for a given customer" do
+        expect(@cust48.transactions.count).to eq(5)
+        expect(@cust48.transactions.first.id).to eq(@t1.id)
+      end
+    end
   end
 end
