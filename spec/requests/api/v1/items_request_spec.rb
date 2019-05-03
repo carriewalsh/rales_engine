@@ -14,10 +14,10 @@ RSpec.describe "Items API" do
     @item2 = @merch2.items.create(name: "W.L. Weller C.Y.P.B.",unit_price: 35000, description:"A light aroma with citrus and oak on the nose. The palate is well rounded and balanced, with a medium-long finish and hints of vanilla.")
     @item3 = @merch3.items.create(name: "Bulleit Bourbon",unit_price: 22000, description:"Medium amber in color, with gentle spiciness and sweet oak aromas. Mid-palate is smooth with tones of maple, oak, and nutmeg. Finish is long, dry, and satiny with a light toffee flavor.")
 
-    @invoice1 = @merch1.invoices.create(status: 'shipped')
-    @invoice2 = @merch1.invoices.create(status: 'shipped')
-    @invoice3 = @merch2.invoices.create(status: 'shipped')
-    @invoice4 = @merch3.invoices.create(status: 'shipped')
+    @invoice1 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+    @invoice2 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+    @invoice3 = @merch2.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+    @invoice4 = @merch3.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
 
     @cust48.invoices << @invoice1
     @cust49.invoices << @invoice2
@@ -26,9 +26,9 @@ RSpec.describe "Items API" do
 
     @ii1 = @item1.invoice_items.create(quantity: 10, unit_price: 20000, created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
     @ii2 = @item2.invoice_items.create(quantity: 10, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
-    @ii3 = @item3.invoice_items.create(quantity: 10, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
+    @ii3 = @item3.invoice_items.create(quantity: 1, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
     @ii4 = @item2.invoice_items.create(quantity: 10, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
-    @ii5 = @item3.invoice_items.create(quantity: 10, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
+    @ii5 = @item3.invoice_items.create(quantity: 1, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
 
     @invoice1.invoice_items << @ii1
     @invoice1.invoice_items << @ii2
@@ -76,6 +76,17 @@ RSpec.describe "Items API" do
       items = JSON.parse(response.body)["data"]
       expect(items.count).to eq(2)
       expect(items.first["attributes"]["name"]).to eq("#{@item2.name}")
+    end
+
+    it "can send the date for the best day for a chosen item" do
+      get "/api/v1/items/#{@item1.id}/best_day"
+      expect(response).to be_successful
+
+      day = JSON.parse(response.body)["data"]
+      date = "2018-04-14".to_datetime
+      expect(day["attributes"]["best_day"].to_date.day).to eq(13)
+      expect(day["attributes"]["best_day"].to_date.month).to eq(4)
+      expect(day["attributes"]["best_day"].to_date.year).to eq(2018)
     end
   end
 end
