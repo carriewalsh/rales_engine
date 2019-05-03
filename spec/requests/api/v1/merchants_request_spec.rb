@@ -144,7 +144,7 @@ describe "Merchants API" do
   end
 
   context "Relationships" do
-    xit "can get all items for a specific merchant" do
+    it "can get all items for a specific merchant" do
       get "/api/v1/merchants/#{@merch2.id}/items"
       expect(response).to be_successful
 
@@ -152,7 +152,7 @@ describe "Merchants API" do
       expect(items.count).to eq(1)
     end
 
-    xit "can get all invoices for a specific merchant" do
+    it "can get all invoices for a specific merchant" do
       get "/api/v1/merchants/#{@merch1.id}/invoices"
       expect(response).to be_successful
 
@@ -162,7 +162,7 @@ describe "Merchants API" do
       get "/api/v1/merchants/#{@merch2.id}/invoices"
 
       invoices = JSON.parse(response.body)["data"]
-      expect(invoices.count).to eq(0)
+      expect(invoices.count).to eq(1)
     end
   end
 
