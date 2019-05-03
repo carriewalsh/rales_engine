@@ -61,7 +61,7 @@ RSpec.describe "Items API" do
 
   context "Relationships" do
     it "can send all invoice_items for a specific item" do
-      get "/api/v1/items/#{@item1.id}/invoice_items"
+      get "/api/v1/items/#{@item2.id}/invoice_items"
       expect(response).to be_successful
 
       invoice_items = JSON.parse(response.body)["data"]

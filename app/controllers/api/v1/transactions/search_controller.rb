@@ -12,5 +12,3 @@ class Api::V1::Transactions::SearchController < ApplicationController
     render json: TransactionSerializer.new(transactions.order(id: :asc))
   end
 end
-
-# find by invoice_id in order
