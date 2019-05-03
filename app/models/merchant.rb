@@ -19,7 +19,7 @@ class Merchant < ApplicationRecord
   end
 
   def self.favorite_merchant(customer_id)
-    joins(invoices: :transactions).select("merchants.*, COUNT(transactions.id) AS count").where("invoices.customer_id": customer_id).group(:id).order("count DESC").first
+    joins(invoices: :transactions).select("merchants.*, COUNT(transactions.id) AS count").where("invoices.customer_id = ? AND transactions.result = ?", customer_id, "success").group(:id).order("count DESC").first
   end
 
   def total_revenue
