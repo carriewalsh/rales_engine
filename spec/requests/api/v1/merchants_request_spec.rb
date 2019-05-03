@@ -73,7 +73,7 @@ describe "Merchants API" do
       expect(merchant["attributes"]["name"]).to eq(name)
     end
 
-    it "can find merchant by created_at" do
+    it "can find a merchant by created_at" do
       created_at = @merch1.created_at
 
 
@@ -85,7 +85,7 @@ describe "Merchants API" do
       expect(merchant["attributes"]["id"]).to eq(@merch1.id)
     end
 
-    it "can find merchant by updated_at" do
+    it "can find a merchant by updated_at" do
       updated_at = @merch1.updated_at
 
 
@@ -94,6 +94,42 @@ describe "Merchants API" do
 
       merchant = JSON.parse(response.body)["data"]
       expect(merchant["attributes"]["id"]).to eq(@merch1.id)
+    end
+  end
+
+  context "Find All" do
+    it "can find all merchants by name" do
+      name = @merch1.name
+
+      get "/api/v1/merchants/find_all?name=#{name}"
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body)["data"]
+
+      expect(merchants.count).to eq(1)
+    end
+
+    it "can find all merchants by created_at" do
+      created_at = @merch1.created_at
+
+
+      get "/api/v1/merchants/find_all?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body)["data"]
+
+      expect(merchants.count).to eq(3)
+    end
+
+    it "can find all merchants by updated_at" do
+      updated_at = @merch1.updated_at
+
+
+      get "/api/v1/merchants/find_all?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body)["data"]
+      expect(merchants.count).to eq(3)
     end
   end
 
