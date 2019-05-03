@@ -117,65 +117,65 @@ RSpec.describe "Transactions API" do
     it "can find all transactions by id" do
       id = @t1.id
 
-      get "/api/v1/transactions/find?id=#{id}"
+      get "/api/v1/transactions/find_all?id=#{id}"
       expect(response).to be_successful
 
       transaction = JSON.parse(response.body)["data"]
 
-      expect(transaction["attributes"]["id"].to_i).to eq(id)
+      expect(transaction.first["attributes"]["id"].to_i).to eq(id)
     end
 
     it "can find all transactions by invoice_id" do
       invoice_id = @t1.invoice_id
 
-      get "/api/v1/transactions/find?invoice_id=#{invoice_id}"
+      get "/api/v1/transactions/find_all?invoice_id=#{invoice_id}"
       expect(response).to be_successful
 
       transaction = JSON.parse(response.body)["data"]
 
-      expect(transaction["attributes"]["invoice_id"].to_i).to eq(invoice_id)
+      expect(transaction.first["attributes"]["invoice_id"].to_i).to eq(invoice_id)
     end
 
     it "can find all transactions by credit_card_number" do
       credit_card_number = @t1.credit_card_number
 
-      get "/api/v1/transactions/find?credit_card_number=#{credit_card_number}"
+      get "/api/v1/transactions/find_all?credit_card_number=#{credit_card_number}"
       expect(response).to be_successful
 
       transaction = JSON.parse(response.body)["data"]
 
-      expect(transaction["attributes"]["credit_card_number"]).to eq(credit_card_number)
+      expect(transaction.first["attributes"]["credit_card_number"]).to eq(credit_card_number)
     end
 
     it "can find all transactions by result" do
       result = @t1.result
 
-      get "/api/v1/transactions/find?result=#{result}"
+      get "/api/v1/transactions/find_all?result=#{result}"
       expect(response).to be_successful
 
       transaction = JSON.parse(response.body)["data"]
 
-      expect(transaction["attributes"]["result"]).to eq(result)
+      expect(transaction.first["attributes"]["result"]).to eq(result)
     end
 
     it "can find all transactions by created_at" do
       created_at = @t1.created_at
 
-      get "/api/v1/transactions/find?created_at=#{created_at}"
+      get "/api/v1/transactions/find_all?created_at=#{created_at}"
       expect(response).to be_successful
 
       transaction = JSON.parse(response.body)["data"]
-      expect(transaction["attributes"]["id"]).to eq(@t1.id)
+      expect(transaction.first["attributes"]["id"]).to eq(@t1.id)
     end
 
     it "can find all transactions by updated_at" do
       updated_at = @t1.updated_at
 
-      get "/api/v1/transactions/find?updated_at=#{updated_at}"
+      get "/api/v1/transactions/find_all?updated_at=#{updated_at}"
       expect(response).to be_successful
 
       transaction = JSON.parse(response.body)["data"]
-      expect(transaction["attributes"]["id"]).to eq(@t1.id)
+      expect(transaction.first["attributes"]["id"]).to eq(@t1.id)
     end
   end
 
