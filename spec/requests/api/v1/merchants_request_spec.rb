@@ -131,6 +131,16 @@ describe "Merchants API" do
       merchants = JSON.parse(response.body)["data"]
       expect(merchants.count).to eq(3)
     end
+
+    it "can find a random merchant" do
+      get "/api/v1/merchants/random"
+      expect(response).to be_successful
+
+      rando = JSON.parse(response.body)
+      expect(rando["data"].class).to eq(Hash)
+      expect(rando["data"]["attributes"]).to be_present
+      expect(rando.count).to eq(1)
+    end
   end
 
   context "Relationships" do
