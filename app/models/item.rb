@@ -17,7 +17,7 @@ class Item < ApplicationRecord
   end
 
   def best_date
-    invoices.joins(:invoice_items, :transactions).select("invoices.updated_at AS date, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").where("transactions.result = ?","success").group(:updated_at).order("revenue DESC, date DESC").take
+    invoices.joins(:transactions).select("invoices.updated_at AS date, SUM(invoice_items.quantity) AS sales").where("transactions.result = ?","success").group(:updated_at).order("sales DESC, date DESC").take
     # invoices.joins(:invoice_items, :transactions).select("invoices.updated_at AS date, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").where("transactions.result = ?","success").group(:updated_at).order("date DESC, revenue DESC").take
   end
 end
