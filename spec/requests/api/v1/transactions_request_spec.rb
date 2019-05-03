@@ -39,11 +39,19 @@ RSpec.describe "Transactions API" do
     expect(transactions["data"].count).to eq(3)
   end
 
-  context "" do
+  it "sends a single transaction by id" do
+    get "/api/v1/transactions/#{@t1.id}"
+    expect(response).to be_successful
+    transactions = JSON.parse(response.body)
+
+    expect(transactions["data"]["attributes"]["result"]).to eq('success')
+  end
+
+  context "Find" do
 
   end
 
-  context "" do
+  context "Find All" do
 
   end
 
