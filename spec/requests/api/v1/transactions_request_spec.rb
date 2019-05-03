@@ -38,4 +38,22 @@ RSpec.describe "Transactions API" do
     transactions = JSON.parse(response.body)
     expect(transactions["data"].count).to eq(3)
   end
+
+  context "" do
+
+  end
+
+  context "" do
+
+  end
+
+  context "Relationships" do
+    it "can get invoice for a specific transaction" do
+      get "/api/v1/transactions/#{@t1.id}/invoice"
+      expect(response).to be_successful
+
+      invoice = JSON.parse(response.body)
+      expect(invoice.count).to eq(1)
+    end
+  end
 end
