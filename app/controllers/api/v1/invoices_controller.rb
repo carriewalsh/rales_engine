@@ -4,6 +4,12 @@ class Api::V1::InvoicesController < ApplicationController
   end
 
   def show
-    render json: InvoiceSerializer.new(Invoice.find(params[:id]))
+    render json: InvoiceSerializer.new(Invoice.find(find_params[:id]))
+  end
+
+  private
+
+  def find_params
+    params.permit(:id)
   end
 end
