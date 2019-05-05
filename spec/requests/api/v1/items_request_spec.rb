@@ -200,7 +200,7 @@ RSpec.describe "Items API" do
       expect(response).to be_successful
 
       items = JSON.parse(response.body)["data"]
-      expect(items.count).to eq(1)
+      expect(items.count).to eq(3)
       expect(items.first["attributes"]["id"]).to eq(@item1.id)
     end
 
@@ -211,7 +211,7 @@ RSpec.describe "Items API" do
       expect(response).to be_successful
 
       items = JSON.parse(response.body)["data"]
-        expect(items.count).to eq(1)
+        expect(items.count).to eq(3)
       expect(items.first["attributes"]["id"]).to eq(@item1.id)
     end
   end
