@@ -7,6 +7,6 @@ class ItemSerializer
   has_many :invoices, through: :invoice_items
 
   attribute :unit_price do |object|
-    (object.unit_price/100.00).to_s
+    (object.unit_price/100.00).round(2).to_s
   end
 end
