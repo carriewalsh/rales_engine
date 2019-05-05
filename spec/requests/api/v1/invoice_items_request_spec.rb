@@ -35,6 +35,13 @@ RSpec.describe "InvoiceItems API" do
     expect(invoice_items["data"].count).to eq(3)
   end
 
+  it "can get a single invoice_item by id" do
+    get "/api/v1/invoice_items/#{@ii1.id}"
+    expect(response).to be_successful
+    invoice_items = JSON.parse(response.body)
+    expect(invoice_items["data"]["attributes"]["id"]).to eq(@ii1.id)
+  end
+
   context "Find" do
     it "can find an invoice_item by id" do
       id = @ii1.id
