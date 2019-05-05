@@ -214,6 +214,15 @@ RSpec.describe "Items API" do
         expect(items.count).to eq(3)
       expect(items.first["attributes"]["id"]).to eq(@item1.id)
     end
+    it "can find a random item" do
+      get "/api/v1/items/random"
+      expect(response).to be_successful
+
+      rando = JSON.parse(response.body)
+      expect(rando["data"].class).to eq(Hash)
+      expect(rando["data"]["attributes"]).to be_present
+      expect(rando.count).to eq(1)
+    end
   end
 
   context "Relationships" do
