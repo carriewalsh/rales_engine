@@ -16,29 +16,27 @@ Requires Ruby 2.4.1 and Rails 5.1.7
 ### Installing
 
 ```
-$ git clone git@github.com:carriewalsh/rales_engine.git
+$ git clone https://github.com/carriewalsh/rales_engine.git
 $ cd rales_engine
 $ bundle install
+$ rake db:{drop,create,migrate}
 ```
 
 ### Seeding Data
 ```
-$ rake import:customers
-$ rake import:invoice_items
-$ rake import:invoices
-$ rake import:items
-$ rake import:merchants
-$ rake import:transactions
+$ rake import:{customers,invoice_items,invoices,items,merchants,transactions}
 ```
 
 ## Running Tests
 Controller and Unit tests are run on rspec:
+
 `$ rspec`
 
 Full database testing can be done by cloning:
+
 `$ git clone https://github.com/turingschool/rales_engine_spec_harness.git`
 
-Setup and run rspec per directions from README in rales_engine_spec_harness or via this <a href="https://github.com/turingschool/rales_engine_spec_harness">link</a>.
+Setup and run Minitest per directions from README in rales_engine_spec_harness or via this <a href="https://github.com/turingschool/rales_engine_spec_harness">link</a>.
 
 ## Author
 
