@@ -46,3 +46,5 @@ Setup and run Minitest per directions from README in rales_engine_spec_harness o
 ## Author
 
 At the time of making this app, I have just started my third module at Turing School of Software & Design. My focus is in back-end engineering. In the future, I'd love to be on a team that works on projects that help others and simplify issues.
+
+Here's a <a href="https://medium.com/@carriewalsh/my-best-first-api-ever-1c4a7d07a304">link</a> to my blog post I wrote while working on this project.
