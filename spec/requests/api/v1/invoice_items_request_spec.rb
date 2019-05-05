@@ -40,7 +40,92 @@ RSpec.describe "InvoiceItems API" do
   end
 
   context "Find All" do
+    it "can find all items by id" do
+      id = @ii1.id
 
+      get "/api/v1/invoice_items/find_all?id=#{id}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all items by item_id" do
+      item_id = @ii1.item_id
+
+      get "/api/v1/invoice_items/find_all?item_id=#{item_id}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all items by invoice_id" do
+      invoice_id = @ii1.invoice_id
+
+      get "/api/v1/invoice_items/find_all?invoice_id=#{invoice_id}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(2)
+      expect(items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all items by quantity" do
+      quantity = @ii1.quantity
+
+      get "/api/v1/invoice_items/find_all?quantity=#{quantity}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(3)
+      expect(items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all items by unit_price" do
+      unit_price = @ii1.unit_price
+
+      get "/api/v1/invoice_items/find_all?unit_price=#{unit_price}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all items by created_at" do
+      created_at = @ii1.created_at
+
+      get "/api/v1/invoice_items/find_all?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all items by updated_at" do
+      updated_at = @ii1.updated_at
+
+      get "/api/v1/invoice_items/find_all?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+        expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    xit "can find a random invoice_item" do
+      get "/api/v1/invoice_items/random"
+      expect(response).to be_successful
+
+      rando = JSON.parse(response.body)
+      expect(rando["data"].class).to eq(Hash)
+      expect(rando["data"]["attributes"]).to be_present
+      expect(rando.count).to eq(1)
+    end
   end
 
   context "Relationships" do
