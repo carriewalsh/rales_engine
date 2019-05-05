@@ -1,13 +1,15 @@
 class Api::V1::Items::SearchController < ApplicationController
   def show
-    key = params.keys.first
-    value = params.values.first
-    render json: ItemSerializer.new(Item.where(key => value).order(:id).first)
+    render json: ItemSerializer.new(Item.where(search_params).order(:id).first)
   end
 
   def index
-    key = params.keys.first
-    value = params.values.first
-    render json: ItemSerializer.new(Item.where(key => value).order(id: :asc))
+    render json: ItemSerializer.new(Item.where(search_params).order(id: :asc))
+  end
+
+  private
+
+  def search_params
+    params.permit(:id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at)
   end
 end

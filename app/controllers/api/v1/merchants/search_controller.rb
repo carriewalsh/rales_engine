@@ -1,13 +1,15 @@
 class Api::V1::Merchants::SearchController < ApplicationController
   def show
-    key = params.keys.first
-    value = params.values.first
-    render json: MerchantSerializer.new(Merchant.find_by(key => value))
+    render json: MerchantSerializer.new(Merchant.find_by(search_params))
   end
 
   def index
-    key = params.keys.first
-    value = params.values.first
-    render json: MerchantSerializer.new(Merchant.where(key => value))
+    render json: MerchantSerializer.new(Merchant.where(search_params))
+  end
+
+  private
+
+  def search_params
+    params.permit(:id, :name, :created_at, :updated_at)
   end
 end
