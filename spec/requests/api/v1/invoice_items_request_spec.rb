@@ -117,7 +117,7 @@ RSpec.describe "InvoiceItems API" do
       expect(items.first["attributes"]["id"]).to eq(@ii1.id)
     end
 
-    xit "can find a random invoice_item" do
+    it "can find a random invoice_item" do
       get "/api/v1/invoice_items/random"
       expect(response).to be_successful
 
