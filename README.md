@@ -36,6 +36,8 @@ Full database testing can be done by cloning:
 
 `$ git clone https://github.com/turingschool/rales_engine_spec_harness.git`
 
+`$ bundle exec rake`
+
 Setup and run Minitest per directions from README in rales_engine_spec_harness or via this <a href="https://github.com/turingschool/rales_engine_spec_harness">link</a>.
 
 ## Author
