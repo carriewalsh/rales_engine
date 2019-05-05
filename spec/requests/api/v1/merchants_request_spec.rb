@@ -2,9 +2,9 @@ require "rails_helper"
 
 describe "Merchants API" do
   before :each do
-    @merch1 = Merchant.create(name: "Ondrea Chadburn")
-    @merch2 = Merchant.create(name: "Raff Faust")
-    @merch3 = Merchant.create(name: "Con Chilver")
+    @merch1 = Merchant.create(name: "Ondrea Chadburn", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
+    @merch2 = Merchant.create(name: "Raff Faust", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
+    @merch3 = Merchant.create(name: "Con Chilver", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
 
     @cust48 = Customer.create(first_name: "Trixie", last_name: "Eronie")
     @cust49 = Customer.create(first_name: "Reynold", last_name: "Beed")
@@ -24,10 +24,10 @@ describe "Merchants API" do
     @cust48.invoices << @invoice3
     @cust50.invoices << @invoice4
 
-    @ii1 = @item1.invoice_items.create(quantity: 10, unit_price: 20000, created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
-    @ii2 = @item2.invoice_items.create(quantity: 10, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
-    @ii3 = @item3.invoice_items.create(quantity: 10, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
-    @ii4 = @item2.invoice_items.create(quantity: 10, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
+    @ii1 = @item1.invoice_items.create(quantity: 30, unit_price: 20000, created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+    @ii2 = @item2.invoice_items.create(quantity: 20, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
+    @ii3 = @item3.invoice_items.create(quantity: 30, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
+    @ii4 = @item2.invoice_items.create(quantity: 20, unit_price: 35000, created_at: "2018-04-06 19:07:44",updated_at: "2018-04-17 00:06:32")
     @ii5 = @item3.invoice_items.create(quantity: 10, unit_price: 22000, created_at: "2018-04-08 22:14:08",updated_at: "2018-04-14 02:03:32")
 
     @invoice1.invoice_items << @ii1
@@ -50,7 +50,7 @@ describe "Merchants API" do
     expect(merchants["data"].count).to eq(3)
   end
 
-  it "can get one merchant by id" do
+  it "can get a single merchant by id" do
     id = create(:merchant).id
 
     get "/api/v1/merchants/#{id}"
@@ -62,20 +62,89 @@ describe "Merchants API" do
   end
 
   context "Find" do
-    xit "can find one merchant by name" do
-      name = create(:merchant).name.split.join("-")
+    it "can find a merchant by name" do
+      name = @merch1.name
 
-      get "/api/v1/merchants/#{name}"
+      get "/api/v1/merchants/find?name=#{name}"
       expect(response).to be_successful
 
-      merchant = JSON.parse(response.body)
+      merchant = JSON.parse(response.body)["data"]
 
-      expect(merchant["data"]["name"]).to eq(name)
+      expect(merchant["attributes"]["name"]).to eq(name)
+    end
+
+    it "can find a merchant by created_at" do
+      created_at = @merch1.created_at
+
+
+      get "/api/v1/merchants/find?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      merchant = JSON.parse(response.body)["data"]
+
+      expect(merchant["attributes"]["id"]).to eq(@merch1.id)
+    end
+
+    it "can find a merchant by updated_at" do
+      updated_at = @merch1.updated_at
+
+
+      get "/api/v1/merchants/find?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      merchant = JSON.parse(response.body)["data"]
+      expect(merchant["attributes"]["id"]).to eq(@merch1.id)
+    end
+  end
+
+  context "Find All" do
+    it "can find all merchants by name" do
+      name = @merch1.name
+
+      get "/api/v1/merchants/find_all?name=#{name}"
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body)["data"]
+
+      expect(merchants.count).to eq(1)
+    end
+
+    it "can find all merchants by created_at" do
+      created_at = @merch1.created_at
+
+
+      get "/api/v1/merchants/find_all?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body)["data"]
+
+      expect(merchants.count).to eq(3)
+    end
+
+    it "can find all merchants by updated_at" do
+      updated_at = @merch1.updated_at
+
+
+      get "/api/v1/merchants/find_all?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body)["data"]
+      expect(merchants.count).to eq(3)
+    end
+
+    it "can find a random merchant" do
+      get "/api/v1/merchants/random"
+      expect(response).to be_successful
+
+      rando = JSON.parse(response.body)
+      expect(rando["data"].class).to eq(Hash)
+      expect(rando["data"]["attributes"]).to be_present
+      expect(rando.count).to eq(1)
     end
   end
 
   context "Relationships" do
-    xit "can get all items for a specific merchant" do
+    it "can get all items for a specific merchant" do
       get "/api/v1/merchants/#{@merch2.id}/items"
       expect(response).to be_successful
 
@@ -83,7 +152,7 @@ describe "Merchants API" do
       expect(items.count).to eq(1)
     end
 
-    xit "can get all invoices for a specific merchant" do
+    it "can get all invoices for a specific merchant" do
       get "/api/v1/merchants/#{@merch1.id}/invoices"
       expect(response).to be_successful
 
@@ -93,7 +162,7 @@ describe "Merchants API" do
       get "/api/v1/merchants/#{@merch2.id}/invoices"
 
       invoices = JSON.parse(response.body)["data"]
-      expect(invoices.count).to eq(0)
+      expect(invoices.count).to eq(1)
     end
   end
 

@@ -27,9 +27,9 @@ RSpec.describe "Transactions API" do
     @invoice1.invoice_items << @ii2
     @invoice2.invoice_items << @ii3
 
-    @t1 = @invoice1.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
-    @t2 = @invoice2.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "failed")
-    @t3 = @invoice2.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success")
+    @t1 = @invoice1.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
+    @t2 = @invoice2.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "failed", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
+    @t3 = @invoice2.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
   end
 
   it "sends a list of transactions" do
@@ -37,5 +37,165 @@ RSpec.describe "Transactions API" do
     expect(response).to be_successful
     transactions = JSON.parse(response.body)
     expect(transactions["data"].count).to eq(3)
+  end
+
+  it "sends a single transaction by id" do
+    get "/api/v1/transactions/#{@t1.id}"
+    expect(response).to be_successful
+    transactions = JSON.parse(response.body)
+
+    expect(transactions["data"]["attributes"]["result"]).to eq('success')
+  end
+
+  context "Find" do
+    it "can find transaction by id" do
+      id = @t1.id
+
+      get "/api/v1/transactions/find?id=#{id}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+
+      expect(transaction["attributes"]["id"].to_i).to eq(id)
+    end
+
+    it "can find transaction by invoice_id" do
+      invoice_id = @t1.invoice_id
+
+      get "/api/v1/transactions/find?invoice_id=#{invoice_id}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+
+      expect(transaction["attributes"]["invoice_id"].to_i).to eq(invoice_id)
+    end
+
+    it "can find transaction by credit_card_number" do
+      credit_card_number = @t1.credit_card_number
+
+      get "/api/v1/transactions/find?credit_card_number=#{credit_card_number}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+
+      expect(transaction["attributes"]["credit_card_number"]).to eq(credit_card_number)
+    end
+
+    it "can find transaction by result" do
+      result = @t1.result
+
+      get "/api/v1/transactions/find?result=#{result}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+
+      expect(transaction["attributes"]["result"]).to eq(result)
+    end
+
+    it "can find transaction by created_at" do
+      created_at = @t1.created_at
+
+      get "/api/v1/transactions/find?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+      expect(transaction["attributes"]["id"]).to eq(@t1.id)
+    end
+
+    it "can find transaction by updated_at" do
+      updated_at = @t1.updated_at
+
+      get "/api/v1/transactions/find?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+      expect(transaction["attributes"]["id"]).to eq(@t1.id)
+    end
+  end
+
+  context "Find All" do
+    it "can find all transactions by id" do
+      id = @t1.id
+
+      get "/api/v1/transactions/find_all?id=#{id}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+
+      expect(transaction.first["attributes"]["id"].to_i).to eq(id)
+    end
+
+    it "can find all transactions by invoice_id" do
+      invoice_id = @t1.invoice_id
+
+      get "/api/v1/transactions/find_all?invoice_id=#{invoice_id}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+
+      expect(transaction.first["attributes"]["invoice_id"].to_i).to eq(invoice_id)
+    end
+
+    it "can find all transactions by credit_card_number" do
+      credit_card_number = @t1.credit_card_number
+
+      get "/api/v1/transactions/find_all?credit_card_number=#{credit_card_number}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+
+      expect(transaction.first["attributes"]["credit_card_number"]).to eq(credit_card_number)
+    end
+
+    it "can find all transactions by result" do
+      result = @t1.result
+
+      get "/api/v1/transactions/find_all?result=#{result}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+
+      expect(transaction.first["attributes"]["result"]).to eq(result)
+    end
+
+    it "can find all transactions by created_at" do
+      created_at = @t1.created_at
+
+      get "/api/v1/transactions/find_all?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+      expect(transaction.first["attributes"]["id"]).to eq(@t1.id)
+    end
+
+    it "can find all transactions by updated_at" do
+      updated_at = @t1.updated_at
+
+      get "/api/v1/transactions/find_all?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      transaction = JSON.parse(response.body)["data"]
+      expect(transaction.first["attributes"]["id"]).to eq(@t1.id)
+    end
+
+    it "can find a random transaction" do
+      get "/api/v1/transactions/random"
+      expect(response).to be_successful
+
+      rando = JSON.parse(response.body)
+      expect(rando["data"].class).to eq(Hash)
+      expect(rando["data"]["attributes"]).to be_present
+      expect(rando.count).to eq(1)
+    end
+  end
+
+  context "Relationships" do
+    it "can get invoice for a specific transaction" do
+      get "/api/v1/transactions/#{@t1.id}/invoice"
+      expect(response).to be_successful
+
+      invoice = JSON.parse(response.body)
+      expect(invoice.count).to eq(1)
+    end
   end
 end

@@ -97,7 +97,6 @@ RSpec.describe "Customers API" do
     it "can find customer by created_at" do
       created_at = @cust48.created_at
 
-
       get "/api/v1/customers/find?created_at=#{created_at}"
       expect(response).to be_successful
 
@@ -107,7 +106,6 @@ RSpec.describe "Customers API" do
 
     it "can find customer by updated_at" do
       updated_at = @cust48.updated_at
-
 
       get "/api/v1/customers/find?updated_at=#{updated_at}"
       expect(response).to be_successful
@@ -173,6 +171,25 @@ RSpec.describe "Customers API" do
       expect(rando.count).to eq(1)
     end
   end
+
+  context "Relationships" do
+    it "can get all invoices for a specific customer" do
+      get "/api/v1/customers/#{@cust48.id}/invoices"
+      expect(response).to be_successful
+
+      invoices = JSON.parse(response.body)["data"]
+      expect(invoices.count).to eq(2)
+    end
+
+    it "can get all transactions for a specific customer" do
+      get "/api/v1/customers/#{@cust48.id}/transactions"
+      expect(response).to be_successful
+
+      transactions = JSON.parse(response.body)["data"]
+      expect(transactions.count).to eq(2)
+    end
+  end
+
   context "Customers Logic" do
     it "can send a favorite merchant for a customer " do
       get "/api/v1/customers/#{@cust48.id}/favorite_merchant"

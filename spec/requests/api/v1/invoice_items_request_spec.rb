@@ -34,4 +34,193 @@ RSpec.describe "InvoiceItems API" do
     invoice_items = JSON.parse(response.body)
     expect(invoice_items["data"].count).to eq(3)
   end
+
+  it "can get a single invoice_item by id" do
+    get "/api/v1/invoice_items/#{@ii1.id}"
+    expect(response).to be_successful
+    invoice_items = JSON.parse(response.body)
+    expect(invoice_items["data"]["attributes"]["id"]).to eq(@ii1.id)
+  end
+
+  context "Find" do
+    it "can find an invoice_item by id" do
+      id = @ii1.id
+
+      get "/api/v1/invoice_items/find?id=#{id}"
+      expect(response).to be_successful
+
+      invoice_item = JSON.parse(response.body)["data"]
+      expect(invoice_item["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find an invoice_item by item_id" do
+      item_id = @ii1.item_id
+
+      get "/api/v1/invoice_items/find?item_id=#{item_id}"
+      expect(response).to be_successful
+
+      invoice_item = JSON.parse(response.body)["data"]
+      expect(invoice_item["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find an invoice_item by invoice_id" do
+      invoice_id = @ii1.invoice_id
+
+      get "/api/v1/invoice_items/find?invoice_id=#{invoice_id}"
+      expect(response).to be_successful
+
+      invoice_item = JSON.parse(response.body)["data"]
+      expect(invoice_item["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find an invoice_item by quantity" do
+      quantity = @ii1.quantity
+
+      get "/api/v1/invoice_items/find?quantity=#{quantity}"
+      expect(response).to be_successful
+
+      invoice_item = JSON.parse(response.body)["data"]
+      expect(invoice_item["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find an invoice_item by unit_price" do
+      unit_price = @ii1.unit_price
+
+      get "/api/v1/invoice_items/find?unit_price=#{unit_price}"
+      expect(response).to be_successful
+
+      invoice_item = JSON.parse(response.body)["data"]
+      expect(invoice_item["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find an invoice_item by created_at" do
+      created_at = @ii1.created_at
+
+      get "/api/v1/invoice_items/find?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      invoice_item = JSON.parse(response.body)["data"]
+      expect(invoice_item["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find an invoice_item by updated_at" do
+      updated_at = @ii1.updated_at
+
+      get "/api/v1/invoice_items/find?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      invoice_item = JSON.parse(response.body)["data"]
+      expect(invoice_item["attributes"]["id"]).to eq(@ii1.id)
+    end
+  end
+
+  context "Find All" do
+    it "can find all invoice_items by id" do
+      id = @ii1.id
+
+      get "/api/v1/invoice_items/find_all?id=#{id}"
+      expect(response).to be_successful
+
+      invoice_items = JSON.parse(response.body)["data"]
+      expect(invoice_items.count).to eq(1)
+      expect(invoice_items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all invoice_items by item_id" do
+      item_id = @ii1.item_id
+
+      get "/api/v1/invoice_items/find_all?item_id=#{item_id}"
+      expect(response).to be_successful
+
+      invoice_items = JSON.parse(response.body)["data"]
+      expect(invoice_items.count).to eq(1)
+      expect(invoice_items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all invoice_items by invoice_id" do
+      invoice_id = @ii1.invoice_id
+
+      get "/api/v1/invoice_items/find_all?invoice_id=#{invoice_id}"
+      expect(response).to be_successful
+
+      invoice_items = JSON.parse(response.body)["data"]
+      expect(invoice_items.count).to eq(2)
+      expect(invoice_items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all invoice_items by quantity" do
+      quantity = @ii1.quantity
+
+      get "/api/v1/invoice_items/find_all?quantity=#{quantity}"
+      expect(response).to be_successful
+
+      invoice_items = JSON.parse(response.body)["data"]
+      expect(invoice_items.count).to eq(3)
+      expect(invoice_items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all invoice_items by unit_price" do
+      unit_price = @ii1.unit_price
+
+      get "/api/v1/invoice_items/find_all?unit_price=#{unit_price}"
+      expect(response).to be_successful
+
+      invoice_items = JSON.parse(response.body)["data"]
+      expect(invoice_items.count).to eq(1)
+      expect(invoice_items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all invoice_items by created_at" do
+      created_at = @ii1.created_at
+
+      get "/api/v1/invoice_items/find_all?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      invoice_items = JSON.parse(response.body)["data"]
+      expect(invoice_items.count).to eq(1)
+      expect(invoice_items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find all invoice_items by updated_at" do
+      updated_at = @ii1.updated_at
+
+      get "/api/v1/invoice_items/find_all?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      invoice_items = JSON.parse(response.body)["data"]
+      expect(invoice_items.count).to eq(1)
+      expect(invoice_items.first["attributes"]["id"]).to eq(@ii1.id)
+    end
+
+    it "can find a random invoice_item" do
+      get "/api/v1/invoice_items/random"
+      expect(response).to be_successful
+
+      rando = JSON.parse(response.body)
+      expect(rando["data"].class).to eq(Hash)
+      expect(rando["data"]["attributes"]).to be_present
+      expect(rando.count).to eq(1)
+    end
+  end
+
+  context "Relationships" do
+    it "can get invoice for a specific invoice_item" do
+      get "/api/v1/invoice_items/#{@ii1.id}/invoice"
+      expect(response).to be_successful
+
+      invoice = JSON.parse(response.body)
+      expect(invoice.count).to eq(1)
+
+      expect(invoice["data"]["attributes"]["id"].to_s).to eq("#{@invoice1.id}")
+    end
+
+    it "can get item for a specific invoice_item" do
+      get "/api/v1/invoice_items/#{@ii1.id}/item"
+      expect(response).to be_successful
+
+      item = JSON.parse(response.body)
+      expect(item.count).to eq(1)
+      expect(item["data"]["attributes"]["id"].to_s).to eq("#{@item1.id}")
+    end
+  end
 end
