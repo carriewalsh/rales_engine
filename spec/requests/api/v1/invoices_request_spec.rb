@@ -39,6 +39,15 @@ RSpec.describe "Invoices API" do
     expect(invoices["data"].count).to eq(2)
   end
 
+  it "sends a single invoice by id" do
+    get "/api/v1/invoices/#{@invoice1.id}"
+    expect(response).to be_successful
+
+    invoice = JSON.parse(response.body)
+
+    expect(invoice["data"]["id"]).to eq(@invoice1.id.to_s)
+  end
+
   context "Find" do
     it "can find a invoice by id" do
       id = @invoice1.id
@@ -107,7 +116,70 @@ RSpec.describe "Invoices API" do
   end
 
   context "Find All" do
+    it "can find all invoices by id" do
+      id = @invoice1.id
 
+      get "/api/v1/invoices/find_all?id=#{id}"
+      expect(response).to be_successful
+
+      invoices = JSON.parse(response.body)["data"]
+      expect(invoices.count).to eq(1)
+      expect(invoices.first["attributes"]["id"]).to eq(@invoice1.id)
+    end
+
+    it "can find all invoices by customer_id" do
+      customer_id = @invoice1.customer_id
+
+      get "/api/v1/invoices/find_all?customer_id=#{customer_id}"
+      expect(response).to be_successful
+
+      invoices = JSON.parse(response.body)["data"]
+      expect(invoices.count).to eq(1)
+      expect(invoices.first["attributes"]["id"]).to eq(@invoice1.id)
+    end
+
+    it "can find all invoices by merchant_id" do
+      merchant_id = @invoice1.merchant_id
+
+      get "/api/v1/invoices/find_all?merchant_id=#{merchant_id}"
+      expect(response).to be_successful
+
+      invoices = JSON.parse(response.body)["data"]
+      expect(invoices.count).to eq(2)
+      expect(invoices.first["attributes"]["id"]).to eq(@invoice1.id)
+    end
+
+    it "can find all invoices by status" do
+      status = @invoice1.status
+
+      get "/api/v1/invoices/find_all?status=#{status}"
+      expect(response).to be_successful
+
+      invoices = JSON.parse(response.body)["data"]
+      expect(invoices.count).to eq(2)
+      expect(invoices.first["attributes"]["id"]).to eq(@invoice1.id)
+    end
+
+    it "can find all invoices by created_at" do
+      created_at = @invoice1.created_at
+
+      get "/api/v1/invoices/find_all?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      invoices = JSON.parse(response.body)["data"]
+      expect(invoices.count).to eq(2)
+      expect(invoices.first["attributes"]["id"]).to eq(@invoice1.id)
+    end
+
+    it "can find all invoices by updated_at" do
+      updated_at = @invoice1.updated_at
+
+      get "/api/v1/invoices/find_all?updated_at=#{updated_at}"
+      expect(response).to be_successful
+      invoices = JSON.parse(response.body)["data"]
+      expect(invoices.count).to eq(2)
+      expect(invoices.first["attributes"]["id"]).to eq(@invoice1.id)
+    end
   end
 
   context "Relationships" do
