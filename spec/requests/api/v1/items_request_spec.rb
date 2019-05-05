@@ -69,7 +69,11 @@ RSpec.describe "Items API" do
     end
 
     it "can send the merchant for a specific item" do
+      get "/api/v1/items/#{@item2.id}/merchant"
+      expect(response).to be_successful
 
+      merchant = JSON.parse(response.body)["data"]
+      expect(merchant["attributes"]["name"]).to eq("#{@merch2.name}")
     end
   end
 
