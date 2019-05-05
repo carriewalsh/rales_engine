@@ -24,8 +24,11 @@ $ rake db:{drop,create,migrate}
 
 ### Seeding Data
 ```
-$ rake import:{customers,invoice_items,invoices,items,merchants,transactions}
+$ rake import:{customer,merchant,invoice,item,invoice_item,transaction}
 ```
+### Schema
+
+![Rales Engine Schema](/rales_engine_schema.jpg?raw=true "Rales Engine Schema")
 
 ## Running Tests
 Controller and Unit tests are run on rspec:
