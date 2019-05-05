@@ -9,7 +9,7 @@ class Item < ApplicationRecord
   validates_numericality_of :unit_price
 
   def self.top_by_revenue(count)
-    joins(:invoice_items).select("items.*, ROUND(SUM(invoice_items.quantity * invoice_items.unit_price)/100,2) AS revenue").group(:id).order("revenue DESC").limit(count)
+    joins(:invoice_items).select("items.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").group(:id).order("revenue DESC").limit(count)
   end
 
   def self.top_by_quantity(count)
@@ -17,7 +17,7 @@ class Item < ApplicationRecord
   end
 
   def best_date
-    invoices.joins(:transactions).select("invoices.updated_at AS date, SUM(invoice_items.quantity) AS sales").where("transactions.result = ?","success").group(:updated_at).order("sales DESC, date DESC").take
+    invoices.joins(:transactions).select("invoices.updated_at AS date, SUM(invoice_items.quantity * invoice_items.unit_price) AS sales").where("transactions.result = ?","success").group(:updated_at).order("sales DESC, date DESC").take
     # invoices.joins(:invoice_items, :transactions).select("invoices.updated_at AS date, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").where("transactions.result = ?","success").group(:updated_at).order("date DESC, revenue DESC").take
   end
 end
