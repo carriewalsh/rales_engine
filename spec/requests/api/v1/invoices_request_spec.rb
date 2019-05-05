@@ -26,6 +26,10 @@ RSpec.describe "Invoices API" do
     @invoice1.invoice_items << @ii1
     @invoice1.invoice_items << @ii2
     @invoice2.invoice_items << @ii3
+
+    @t1 = @invoice1.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
+    @t2 = @invoice2.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "failed", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
+    @t3 = @invoice2.transactions.create(credit_card_number: "11152774365214", credit_card_expiration_date: "never", result: "success", created_at: "2012-03-24T14:14:14.000Z",updated_at: "2012-03-24T14:14:14.000Z")
   end
 
   it "sends a list of invoices" do
@@ -33,5 +37,60 @@ RSpec.describe "Invoices API" do
     expect(response).to be_successful
     invoices = JSON.parse(response.body)
     expect(invoices["data"].count).to eq(2)
+  end
+
+  context "Find" do
+
+  end
+
+  context "Find All" do
+
+  end
+
+  context "Relationships" do
+    it "can get transactions for a specific invoice" do
+      get "/api/v1/invoices/#{@invoice1.id}/transactions"
+      expect(response).to be_successful
+
+      transactions = JSON.parse(response.body)["data"]
+      expect(transactions.count).to eq(1)
+      expect(transactions.first["attributes"]["id"].to_s).to eq("#{@t1.id}")
+    end
+
+    it "can get items for a specific invoice" do
+      get "/api/v1/invoices/#{@invoice1.id}/items"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(2)
+      expect(items.first["attributes"]["id"].to_s).to eq("#{@item1.id}")
+    end
+
+    it "can get invoice_items for a specific invoice" do
+      get "/api/v1/invoices/#{@invoice1.id}/invoice_items"
+      expect(response).to be_successful
+
+      invoice_items = JSON.parse(response.body)["data"]
+      expect(invoice_items.count).to eq(2)
+      expect(invoice_items.first["attributes"]["id"].to_s).to eq("#{@ii1.id}")
+    end
+
+    it "can get customer for a specific invoice" do
+      get "/api/v1/invoices/#{@invoice1.id}/customer"
+      expect(response).to be_successful
+
+      customer = JSON.parse(response.body)
+      expect(customer.count).to eq(1)
+      expect(customer["data"]["attributes"]["id"].to_s).to eq("#{@cust48.id}")
+    end
+
+    it "can get merchant for a specific invoice" do
+      get "/api/v1/invoices/#{@invoice1.id}/merchant"
+      expect(response).to be_successful
+
+      merchant = JSON.parse(response.body)
+      expect(merchant.count).to eq(1)
+      expect(merchant["data"]["attributes"]["id"].to_s).to eq("#{@merch1.id}")
+    end
   end
 end

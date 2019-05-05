@@ -71,12 +71,12 @@ Rails.application.routes.draw do
         # get '/random', to: 'random#show'
       end
 
-      resources :invoices, only: [:index,:show] do
-        # resources :merchants, only: [:items]
-        # resources :customers, only: [:items]
-        # resources :items, only: [:items]
-        # resources :invoice_items, only: [:index]
-        # resources :transactions, only: [:index]
+      resources :invoices, only: [:index,:show], module: :invoices do
+        resources :merchant, only: [:index]
+        resources :customer, only: [:index]
+        resources :items, only: [:index]
+        resources :invoice_items, only: [:index]
+        resources :transactions, only: [:index]
       end
 
 
@@ -88,7 +88,6 @@ Rails.application.routes.draw do
 
       resources :transactions, only: [:index, :show] do
         resources :invoice, only: [:index]
-        # get "/invoice", to: "transactions/invoice#show"
       end
     end
   end
