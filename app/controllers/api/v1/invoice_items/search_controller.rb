@@ -10,7 +10,9 @@ class Api::V1::InvoiceItems::SearchController < ApplicationController
   private
 
   def search_params
-    #add something for unit price here
+    if params[:unit_price] && params[:unit_price].include?(".")
+      params[:unit_price] = params[:unit_price].to_f.round(2)*100
+    end
     params.permit(:id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at)
   end
 end
