@@ -1,13 +1,15 @@
 class Api::V1::Invoices::SearchController < ApplicationController
   def show
-    key = params.keys.first
-    value = params.values.first
-    render json: InvoiceSerializer.new(Invoice.find_by(key => value))
+    render json: InvoiceSerializer.new(Invoice.find_by(search_params))
   end
 
   def index
-    key = params.keys.first
-    value = params.values.first
-    render json: InvoiceSerializer.new(Invoice.where(key => value).order(id: :asc))
+    render json: InvoiceSerializer.new(Invoice.where(search_params).order(id: :asc))
+  end
+
+  private
+
+  def search_params
+    params.permit(:id, :merchant_id, :customer_id, :status, :created_at, :updated_at)
   end
 end

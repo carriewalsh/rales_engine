@@ -1,17 +1,18 @@
 class Api::V1::Items::SearchController < ApplicationController
   def show
-    key = params.keys.first
-    if key == "unit_price"
-      value = params.values.first.to_f
-    else
-      value = params.values.first
-    end
-    render json: ItemSerializer.new(Item.where(key => value).order(:id).first)
+    render json: ItemSerializer.new(Item.where(search_params).order(:id).first)
   end
 
   def index
-    key = params.keys.first
-    value = params.values.first
-    render json: ItemSerializer.new(Item.where(key => value).order(id: :asc))
+    render json: ItemSerializer.new(Item.where(search_params).order(id: :asc))
+  end
+
+  private
+
+  def search_params
+    if params[:unit_price] && params[:unit_price].include?(".")
+      params[:unit_price] = (params[:unit_price].to_f*100).round(2)
+    end
+    params.permit(:id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at)
   end
 end
