@@ -12,4 +12,10 @@ class Api::V1::Merchants::RevenueController < ApplicationController
     end
     render json: {:data => {:attributes => {term => (total/100.0).to_s}}}
   end
+
+  private
+
+  def logic_params
+    params.permit(:date, :id)
+  end
 end
