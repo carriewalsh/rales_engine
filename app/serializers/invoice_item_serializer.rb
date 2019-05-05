@@ -6,6 +6,6 @@ class InvoiceItemSerializer
   belongs_to :item
 
   attribute :unit_price do |object|
-    (object.unit_price/100.0).to_s
+    (object[:unit_price]/100.0).to_s
   end
 end
