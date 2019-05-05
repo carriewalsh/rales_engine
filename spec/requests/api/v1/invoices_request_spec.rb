@@ -180,6 +180,16 @@ RSpec.describe "Invoices API" do
       expect(invoices.count).to eq(2)
       expect(invoices.first["attributes"]["id"]).to eq(@invoice1.id)
     end
+
+    it "can send a random invoice" do
+      get "/api/v1/invoices/random"
+      expect(response).to be_successful
+
+      rando = JSON.parse(response.body)
+      expect(rando["data"].class).to eq(Hash)
+      expect(rando["data"]["attributes"]).to be_present
+      expect(rando.count).to eq(1)
+    end
   end
 
   context "Relationships" do
