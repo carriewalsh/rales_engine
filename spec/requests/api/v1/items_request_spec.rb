@@ -10,9 +10,9 @@ RSpec.describe "Items API" do
     @cust49 = Customer.create(first_name: "Reynold", last_name: "Beed")
     @cust50 = Customer.create(first_name: "Christiano", last_name: "Trighton")
 
-    @item1 = @merch1.items.create(name: "W.L. Weller Special Reserve",unit_price: 20000, description:"A sweet nose with a presence of caramel. Tasting notes of honey, butterscotch, and a soft woodiness. It's smooth, delicate and calm. Features a smooth finish with a sweet honeysuckle flair.")
-    @item2 = @merch2.items.create(name: "W.L. Weller C.Y.P.B.",unit_price: 35000, description:"A light aroma with citrus and oak on the nose. The palate is well rounded and balanced, with a medium-long finish and hints of vanilla.")
-    @item3 = @merch3.items.create(name: "Bulleit Bourbon",unit_price: 22000, description:"Medium amber in color, with gentle spiciness and sweet oak aromas. Mid-palate is smooth with tones of maple, oak, and nutmeg. Finish is long, dry, and satiny with a light toffee flavor.")
+    @item1 = @merch1.items.create(name: "W.L. Weller Special Reserve",unit_price: 20000, description:"A sweet nose with a presence of caramel. Tasting notes of honey, butterscotch, and a soft woodiness. It's smooth, delicate and calm. Features a smooth finish with a sweet honeysuckle flair.", created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+    @item2 = @merch2.items.create(name: "W.L. Weller C.Y.P.B.",unit_price: 35000, description:"A light aroma with citrus and oak on the nose. The palate is well rounded and balanced, with a medium-long finish and hints of vanilla.", created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
+    @item3 = @merch3.items.create(name: "Bulleit Bourbon",unit_price: 22000, description:"Medium amber in color, with gentle spiciness and sweet oak aromas. Mid-palate is smooth with tones of maple, oak, and nutmeg. Finish is long, dry, and satiny with a light toffee flavor.", created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
 
     @invoice1 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
     @invoice2 = @merch1.invoices.create(status: 'shipped', created_at: "2018-04-05 11:50:20",updated_at: "2018-04-13 13:08:43")
@@ -51,12 +51,169 @@ RSpec.describe "Items API" do
     expect(items["data"].count).to eq(3)
   end
 
-  context "Find" do
+  it "can get a single items by id" do
+    get "/api/v1/items/#{@item1.id}"
+    expect(response).to be_successful
 
+    item = JSON.parse(response.body)
+    expect(item["data"]["id"]).to eq(@item1.id.to_s)
+  end
+
+  context "Find" do
+    it "can find an item by id" do
+      id = @item1.id
+
+      get "/api/v1/items/find?id=#{id}"
+      expect(response).to be_successful
+
+      item = JSON.parse(response.body)["data"]
+
+      expect(item["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find an item by name" do
+      name = @item1.name
+
+      get "/api/v1/items/find?name=#{name}"
+      expect(response).to be_successful
+
+      item = JSON.parse(response.body)["data"]
+
+      expect(item["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find an item by description" do
+      description = @item1.description
+
+      get "/api/v1/items/find?description=#{description}"
+      expect(response).to be_successful
+
+      item = JSON.parse(response.body)["data"]
+
+      expect(item["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find an item by unit_price" do
+      unit_price = @item1.unit_price
+
+      get "/api/v1/items/find?unit_price=#{unit_price}"
+      expect(response).to be_successful
+
+      item = JSON.parse(response.body)["data"]
+
+      expect(item["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find an item by merchant_id" do
+      merchant_id = @item1.merchant_id
+
+      get "/api/v1/items/find?merchant_id=#{merchant_id}"
+      expect(response).to be_successful
+
+      item = JSON.parse(response.body)["data"]
+
+      expect(item["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find an item by created_at" do
+      created_at = @item1.created_at
+
+      get "/api/v1/items/find?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      item = JSON.parse(response.body)["data"]
+
+      expect(item["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find an item by updated_at" do
+      updated_at = @item1.updated_at
+
+      get "/api/v1/items/find?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      item = JSON.parse(response.body)["data"]
+      expect(item["attributes"]["id"]).to eq(@item1.id)
+    end
   end
 
   context "Find All" do
+    it "can find all items by id" do
+      id = @item1.id
 
+      get "/api/v1/items/find_all?id=#{id}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find all items by name" do
+      name = @item1.name
+
+      get "/api/v1/items/find_all?name=#{name}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find all items by description" do
+      description = @item1.description
+
+      get "/api/v1/items/find_all?description=#{description}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find all items by unit_price" do
+      unit_price = @item1.unit_price
+
+      get "/api/v1/items/find_all?unit_price=#{unit_price}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find all items by merchant_id" do
+      merchant_id = @item1.merchant_id
+
+      get "/api/v1/items/find_all?merchant_id=#{merchant_id}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find all items by created_at" do
+      created_at = @item1.created_at
+
+      get "/api/v1/items/find_all?created_at=#{created_at}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+      expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@item1.id)
+    end
+
+    it "can find all items by updated_at" do
+      updated_at = @item1.updated_at
+
+      get "/api/v1/items/find_all?updated_at=#{updated_at}"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body)["data"]
+        expect(items.count).to eq(1)
+      expect(items.first["attributes"]["id"]).to eq(@item1.id)
+    end
   end
 
   context "Relationships" do

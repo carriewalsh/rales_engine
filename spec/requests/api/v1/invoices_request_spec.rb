@@ -49,7 +49,7 @@ RSpec.describe "Invoices API" do
   end
 
   context "Find" do
-    it "can find a invoice by id" do
+    it "can find an invoice by id" do
       id = @invoice1.id
 
       get "/api/v1/invoices/find?id=#{id}"
@@ -60,7 +60,7 @@ RSpec.describe "Invoices API" do
       expect(invoice["attributes"]["id"]).to eq(@invoice1.id)
     end
 
-    it "can find a invoice by customer_id" do
+    it "can find an invoice by customer_id" do
       customer_id = @invoice1.customer_id
 
       get "/api/v1/invoices/find?customer_id=#{customer_id}"
@@ -71,7 +71,7 @@ RSpec.describe "Invoices API" do
       expect(invoice["attributes"]["id"]).to eq(@invoice1.id)
     end
 
-    it "can find a invoice by merchant_id" do
+    it "can find an invoice by merchant_id" do
       merchant_id = @invoice1.merchant_id
 
       get "/api/v1/invoices/find?merchant_id=#{merchant_id}"
@@ -82,7 +82,7 @@ RSpec.describe "Invoices API" do
       expect(invoice["attributes"]["id"]).to eq(@invoice1.id)
     end
 
-    it "can find a invoice by status" do
+    it "can find an invoice by status" do
       status = @invoice1.status
 
       get "/api/v1/invoices/find?status=#{status}"
@@ -93,7 +93,7 @@ RSpec.describe "Invoices API" do
       expect(invoice["attributes"]["id"]).to eq(@invoice1.id)
     end
 
-    it "can find a invoice by created_at" do
+    it "can find an invoice by created_at" do
       created_at = @invoice1.created_at
 
       get "/api/v1/invoices/find?created_at=#{created_at}"
@@ -104,7 +104,7 @@ RSpec.describe "Invoices API" do
       expect(invoice["attributes"]["id"]).to eq(@invoice1.id)
     end
 
-    it "can find a invoice by updated_at" do
+    it "can find an invoice by updated_at" do
       updated_at = @invoice1.updated_at
 
       get "/api/v1/invoices/find?updated_at=#{updated_at}"
