@@ -59,9 +59,9 @@ Rails.application.routes.draw do
         # get '/random', to: 'random#show'
       end
 
-      resources :invoice_items, only: [:index, :show] do
-        # resources :items, only: [:index]
-        # resources :invoices, only: [:index]
+      resources :invoice_items, only: [:index, :show], module: :invoice_items do
+        resources :item, only: [:index]
+        resources :invoice, only: [:index]
       end
 
 

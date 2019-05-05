@@ -34,4 +34,33 @@ RSpec.describe "InvoiceItems API" do
     invoice_items = JSON.parse(response.body)
     expect(invoice_items["data"].count).to eq(3)
   end
+
+  context "Find" do
+
+  end
+
+  context "Find All" do
+
+  end
+
+  context "Relationships" do
+    it "can get invoice for a specific invoice_item" do
+      get "/api/v1/invoice_items/#{@ii1.id}/invoice"
+      expect(response).to be_successful
+
+      invoice = JSON.parse(response.body)
+      expect(invoice.count).to eq(1)
+
+      expect(invoice["data"]["attributes"]["id"].to_s).to eq("#{@invoice1.id}")
+    end
+
+    it "can get item for a specific invoice_item" do
+      get "/api/v1/invoice_items/#{@ii1.id}/item"
+      expect(response).to be_successful
+
+      item = JSON.parse(response.body)
+      expect(item.count).to eq(1)
+      expect(item["data"]["attributes"]["id"].to_s).to eq("#{@item1.id}")
+    end
+  end
 end
